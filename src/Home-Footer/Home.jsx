@@ -1,10 +1,12 @@
-import Navbar from "../Navbar/Navbar";
+
+import Banner from './../Banner/Banner';
 
 
 const Home = () => {
     return (
-        <div>
+        <div className='mx-auto container'>
           <h1 className="text center">home is tepa</h1>
+          <Banner></Banner>
         </div>
     );
 };

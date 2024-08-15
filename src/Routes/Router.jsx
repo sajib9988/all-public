@@ -17,6 +17,7 @@ import ViewMaterial from './../Dashboard-pages/DashboardTutor/ViewMaterial';
 import ViewBookedSession from './../Dashboard-pages/DashboardStudent/ViewBookedSession';
 import CreateNote from './../Dashboard-pages/DashboardStudent/CreateNote';
 import ManagePersonalNote from './../Dashboard-pages/DashboardStudent/ManagePersonalNote';
+import Profile from './../Dashboard-pages/Shared/Profile';
 
 
 
@@ -90,6 +91,10 @@ export const Router = createBrowserRouter([
       {
         path: 'manage-notes',
         element: <ManagePersonalNote />,
+      },
+      {
+        path: 'profile',
+        element: <Profile></Profile>,
       },
     ],
   },

@@ -6,8 +6,8 @@ import useAuth from './../../Hook/UseAuth';
 import toast from 'react-hot-toast';
 import Modal from 'react-modal';
 import { imageUpload } from './../../Utility/Index';
-
-Modal.setAppElement('#root');
+import Swal from 'sweetalert2';
+// Modal.setAppElement('#root');
 
 const ViewAllStudySession = () => {
     const axiosSecure = useAxiosSecure();
@@ -23,20 +23,44 @@ const ViewAllStudySession = () => {
         }
     });
 
+    
+
     const handleDelete = async (sessionId) => {
         try {
-            const response = await axiosSecure.delete(`/study-session/${sessionId}`);
-            if (response.status === 200) {
-                toast.success('Session deleted successfully!');
-                refetch(); // Refetch the data after deletion
-            } else {
-                throw new Error('Failed to delete session.');
+            // Show a confirmation dialog
+            const result = await Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            });
+    
+            // Proceed if the user confirms
+            if (result.isConfirmed) {
+                const response = await axiosSecure.delete(`/study-delete/${sessionId}`);
+                if (response.status === 200) {
+                    Swal.fire(
+                        'Deleted!',
+                        'Session deleted successfully!',
+                        'success'
+                    );
+                    refetch(); // Refetch the data after deletion
+                } else {
+                    throw new Error('Failed to delete session.');
+                }
             }
         } catch (error) {
-            toast.error(`Error: ${error.message}`);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: `Error: ${error.message}`
+            });
         }
     };
-
+    
     const handleUpdate = (session) => {
         setSelectedSession(session);
         setModalIsOpen(true);
@@ -47,13 +71,13 @@ const ViewAllStudySession = () => {
         setSelectedSession(null);
     };
 
-    const handleSaveChanges = async (e) => {
+    const handleSaveChanges = async (e, requestReReview = false) => {
         e.preventDefault();
         const form = e.target;
         const title = form.title.value;
         const description = form.description.value;
         const sessionFee = form.sessionFee.value;
-        const status = form.status.value;
+        const status = requestReReview ? 'Pending' : form.status.value;
         const registrationStartDate = form.registrationStartDate.value;
         const registrationEndDate = form.registrationEndDate.value;
         const classStartDate = form.classStartDate.value;
@@ -98,7 +122,7 @@ const ViewAllStudySession = () => {
         <div className="p-4">
             <h1 className="text-2xl font-bold mb-4">View All Study Sessions</h1>
             <div className="overflow-x-auto">
-                <table className="w-full table-auto border-collapse border border-gray-200">
+                <table className="w-full min-w-[1000px] table-auto border-collapse border border-gray-200">
                     <thead>
                         <tr className="bg-gray-100 text-center">
                             <th className="border px-4 py-2">Title</th>
@@ -144,15 +168,15 @@ const ViewAllStudySession = () => {
                 isOpen={modalIsOpen}
                 onRequestClose={handleModalClose}
                 contentLabel="Update Session"
-                className="fixed inset-0 flex items-center justify-center z-50 p-4 md:p-6"
+                className="fixed inset-0 flex items-center justify-center z-50 p-4 md:p-6 w-full max-w-lg md:max-w-4xl mx-auto overflow-y-auto"
                 overlayClassName="fixed inset-0 bg-black bg-opacity-50"
             >
                 {selectedSession && (
-                    <div className="bg-green-100 p-4 md:p-6 rounded-lg shadow-lg w-full max-w-4xl">
+                    <div className="bg-white p-4 md:p-6 rounded-lg shadow-lg w-full max-w-4xl mx-auto">
                         <h2 className="text-xl font-bold mb-4">Update Session</h2>
-                        <div className="flex flex-wrap -mx-2">
-                            <div className="w-full md:w-1/2 px-2">
-                                <form onSubmit={handleSaveChanges}>
+                        <form onSubmit={handleSaveChanges}>
+                            <div className="flex flex-col md:flex-row">
+                                <div className="w-full md:w-1/2 md:pr-4 mb-4 md:mb-0">
                                     <label className="block mb-2">
                                         Title:
                                         <input
@@ -182,7 +206,6 @@ const ViewAllStudySession = () => {
                                             required
                                         />
                                     </label>
-
                                     <label className="block mb-2">
                                         Registration Start Date:
                                         <input
@@ -203,13 +226,8 @@ const ViewAllStudySession = () => {
                                             required
                                         />
                                     </label>
-
-
-                                </form>
-                            </div>
-                            <div className="w-full md:w-1/2 px-2">
-                                <form onSubmit={handleSaveChanges}>
-                                 
+                                </div>
+                                <div className="w-full md:w-1/2 md:pl-4">
                                     <label className="block mb-2">
                                         Class Start Date:
                                         <input
@@ -231,39 +249,61 @@ const ViewAllStudySession = () => {
                                         />
                                     </label>
                                     <label className="block mb-2">
-                                        Status:{selectedSession.status}
-                                       
+                                        Current Image:
+                                        {selectedSession.image && (
+                                            <img
+                                                src={selectedSession.image}
+                                                alt="Current Session Image"
+                                                className="mb-4 rounded"
+                                            />
+                                        )}
                                     </label>
                                     <label className="block mb-2">
-                                        Image:
+                                        Upload New Image:
                                         <input
                                             type="file"
                                             name="image"
                                             accept="image/*"
                                             className="border border-gray-300 p-2 rounded w-full"
                                         />
-                                        {selectedSession.image && (
-                                    <img src={selectedSession.image} alt="Session" className="mt-2 w-[200px] h-[200px] object-cover" />
-                                )}
                                     </label>
-                                    <div className="flex justify-end mt-4 space-x-2">
-                                        <button
-                                            type="submit"
-                                            className="bg-blue-500 text-white px-4 py-2 rounded"
-                                        >
-                                            Save Changes
-                                        </button>
-                                        <button
-                                            type="button"
-                                            onClick={handleModalClose}
-                                            className="bg-gray-500 text-white px-4 py-2 rounded"
-                                        >
-                                            Close
-                                        </button>
-                                    </div>
-                                </form>
+                                    <label className="block mb-2">
+                                        Status:
+                                        <input
+                                            type="text"
+                                            name="status"
+                                            defaultValue={selectedSession.status}
+                                            disabled={!selectedSession.isAdmin}
+                                            className="border border-gray-300 p-2 rounded w-full"
+                                        />
+                                    </label>
+                                </div>
                             </div>
-                        </div>
+                            <div className="flex justify-between mt-4">
+                                <button
+                                    type="button"
+                                    onClick={handleModalClose}
+                                    className="bg-red-500 text-white py-2 px-4 rounded"
+                                >
+                                    Cancel
+                                </button>
+                                {selectedSession.status === 'Rejected' && (
+                                    <button
+                                        type="button"
+                                        onClick={(e) => handleSaveChanges(e, true)}
+                                        className="bg-yellow-500 text-white py-2 px-4 rounded"
+                                    >
+                                        Request Re-review
+                                    </button>
+                                )}
+                                <button
+                                    type="submit"
+                                    className="bg-blue-500 text-white py-2 px-4 rounded"
+                                >
+                                    Save Changes
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 )}
             </Modal>
