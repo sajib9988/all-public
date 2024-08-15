@@ -5,11 +5,12 @@ import avatarImg from '../assets/image/placeholder.jpg';
 import Container from './Container';
 import useAuth from './../Hook/UseAuth';
 import TutorModal from './Modal/TutorModal';
+import useRole from './../Hook/UseRole';
   
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-   
+  const [role, isRoleLoading] = useRole();
   // for Modal become a tutor
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -38,17 +39,20 @@ const Navbar = () => {
             {/* Dropdown Menu */}
             <div className='relative'>
               <div className='flex flex-row items-center gap-3'>
+
+
                 {/* Become A Tutor btn */}
-                <div className='hidden md:block'>
-                  {user && (
+               <div className='hidden md:block'>
+                  {user && !isRoleLoading && role.toLowerCase() !== 'tutor' && (
                     <button
                       onClick={openModal}
-                      className='cursor-pointer border text-white  hover:bg-green-700 py-3 px-4 text-sm font-bold rounded-full transition'
+                      className='cursor-pointer border text-white hover:bg-green-700 py-3 px-4 text-sm font-bold rounded-full transition'
                     >
-                      Become a Tutor
+                      Be a Tutor
                     </button>
                   )}
                 </div>
+
                 {/* Modal */}
                 <TutorModal
                   isOpen={isModalOpen}
