@@ -18,6 +18,7 @@ import ViewBookedSession from './../Dashboard-pages/DashboardStudent/ViewBookedS
 import CreateNote from './../Dashboard-pages/DashboardStudent/CreateNote';
 import ManagePersonalNote from './../Dashboard-pages/DashboardStudent/ManagePersonalNote';
 import Profile from './../Dashboard-pages/Shared/Profile';
+import Details from './../Card&details/Details';
 
 
 
@@ -36,6 +37,7 @@ export const Router = createBrowserRouter([
   },
   { path: '/login', element: <Login /> },
   { path: '/signup', element: <SignUp /> },
+  { path: '/details/:id', element: <Details></Details> },
   { path: '/terms-and-conditions', element:<TermsAndConditions></TermsAndConditions>  },
 
 

@@ -9,7 +9,7 @@ import TutorModal from './Modal/TutorModal';
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-
+   
   // for Modal become a tutor
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -22,14 +22,14 @@ const Navbar = () => {
   };
 
   return (
-    <div className='fixed w-full bg-white z-10 shadow-sm'>
+    <div className='fixed w-full bg-black bg-opacity-40 z-10 shadow-sm'>
       <div className='py-4 border-b-[1px]'>
         <Container>
           <div className='flex flex-row items-center justify-between gap-3 md:gap-0'>
             {/* Logo */}
-            <Link to='/'>
+            <Link className='rounded' to='/'>
               <img
-                src=''
+                src='https://i.ibb.co/XSf9TxV/6258786184795404367-removebg-preview.png'
                 alt='logo'
                 width='100'
                 height='100'
@@ -43,7 +43,7 @@ const Navbar = () => {
                   {user && (
                     <button
                       onClick={openModal}
-                      className='cursor-pointer hover:bg-neutral-100 py-3 px-4 text-sm font-semibold rounded-full transition'
+                      className='cursor-pointer border text-white  hover:bg-green-700 py-3 px-4 text-sm font-bold rounded-full transition'
                     >
                       Become a Tutor
                     </button>
