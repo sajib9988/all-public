@@ -8,29 +8,22 @@ import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import useAxiosPublic from './../Hook/axiosPublic';
 
-
 const SignUp = () => {
   const navigate = useNavigate();
   const { createUser, signInWithGoogle, updateUserProfile, loading, setLoading } = useAuth();
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
-  const axiosPublic = useAxiosPublic(); // Get axios instance
+  const axiosPublic = useAxiosPublic();
 
   const onSubmit = async (data) => {
     const { name, email, password, image } = data;
     setLoading(true);
 
     try {
-      // Upload image and get URL
       const image_url = await imageUpload(image[0]);
-
-      // Create user with email and password
       const result = await createUser(email, password);
       const loggedUser = result.user;
-
-      // Update user profile with name and image URL
       await updateUserProfile(name, image_url);
 
-      // Create the currentUser object
       const currentUser = {
         name: loggedUser.displayName || name,
         email: loggedUser.email || email,
@@ -38,7 +31,6 @@ const SignUp = () => {
         status: 'Verified',
       };
 
-      // Save user information to the database
       const response = await axiosPublic.post('/users', currentUser);
 
       if (response.data.insertedId) {
@@ -67,7 +59,6 @@ const SignUp = () => {
       const result = await signInWithGoogle();
       const loggedUser = result.user;
 
-      // Create the currentUser object
       const currentUser = {
         name: loggedUser.displayName,
         email: loggedUser.email,
@@ -75,13 +66,11 @@ const SignUp = () => {
         status: 'Verified',
       };
 
-      // Save user information to the database
       const response = await axiosPublic.post('/users', currentUser);
 
       if (response.data.insertedId) {
         console.log('User added to the database');
         toast.success('Signup Successful');
-       
       }
       navigate('/');
     } catch (error) {
@@ -93,13 +82,13 @@ const SignUp = () => {
   };
 
   return (
-    <div className='flex justify-center items-center min-h-screen'>
-      <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900'>
+    <div className='flex justify-center items-center mt-6 mb-3 min-h-screen'>
+      <div className='flex flex-col w-[700px] p-4 fixed rounded-md sm:p-10 bg-green-500 bg-opacity-60 mt-3 mb-3 text-gray-900'>
         <div className='mb-8 text-center'>
           <h1 className='my-3 text-4xl font-bold'>Sign Up</h1>
-          <p className='text-sm text-gray-400'>Welcome to StayVista</p>
+          <p className='text-sm text-gray-400'>Welcome to Study Center</p>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
+        <form onSubmit={handleSubmit(onSubmit)} className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
           <div className='space-y-4'>
             <div>
               <label htmlFor='name' className='block mb-2 text-sm'>
@@ -110,12 +99,12 @@ const SignUp = () => {
                 id='name'
                 {...register('name', { required: 'Name is required' })}
                 placeholder='Enter Your Name Here'
-                className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900'
+                className='w-full px-4 py-2 h-12 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900'
               />
               {errors.name && <span className='text-red-500'>{errors.name.message}</span>}
             </div>
             <div>
-              <label htmlFor='image' className='block mb-2 text-sm'>
+              <label htmlFor='image' className='block mb-1 text-sm'>
                 Select Image
               </label>
               <input
@@ -123,10 +112,12 @@ const SignUp = () => {
                 id='image'
                 {...register('image', { required: 'Image is required' })}
                 accept='image/*'
-                className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900'
+                className='w-full px-4 py-2 mb-1 h-12 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900'
               />
               {errors.image && <span className='text-red-500'>{errors.image.message}</span>}
             </div>
+          </div>
+          <div className='space-y-4'>
             <div>
               <label htmlFor='email' className='block mb-2 text-sm'>
                 Email Address
@@ -136,7 +127,7 @@ const SignUp = () => {
                 id='email'
                 {...register('email', { required: 'Email is required' })}
                 placeholder='Enter Your Email Here'
-                className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900'
+                className='w-full px-4 py-2 h-12 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900'
               />
               {errors.email && <span className='text-red-500'>{errors.email.message}</span>}
             </div>
@@ -156,12 +147,12 @@ const SignUp = () => {
                 })}
                 autoComplete='new-password'
                 placeholder='***'
-                className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900'
+                className='w-full px-4 py-2 h-12 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900'
               />
               {errors.password && <span className='text-red-500'>{errors.password.message}</span>}
             </div>
           </div>
-          <div>
+          <div className='col-span-1 sm:col-span-2'>
             <button
               disabled={loading}
               type='submit'
@@ -185,7 +176,7 @@ const SignUp = () => {
         <button
           disabled={loading}
           onClick={handleGoogleSignIn}
-          className='disabled:cursor-not-allowed flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer'
+          className='disabled:cursor-not-allowed flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer w-full'
         >
           <FcGoogle size={32} />
           <p>Continue with Google</p>

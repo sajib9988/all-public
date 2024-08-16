@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import useAuth from './../Hook/UseAuth'
 import useAxiosPublic from './../Hook/axiosPublic';
+
 const Login = () => {
   const navigate = useNavigate()
   const location = useLocation()
@@ -62,7 +63,11 @@ const Login = () => {
     }
   };
   return (
+    
     <div className='flex justify-center items-center min-h-screen'>
+      
+   
+      
       <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-green-300 text-gray-900'>
         <div className='mb-8 text-center'>
           <h1 className='my-3 text-4xl font-bold'>Log In</h1>
@@ -135,16 +140,17 @@ const Login = () => {
         <button
           disabled={loading}
           onClick={handleGoogleSignIn}
-          className='disabled:cursor-not-allowed flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer'
+          className='disabled:cursor-not-allowed flex justify-center items-center space-x-2 border-2 m-3 p-2 border-black rounded cursor-pointer'
+
         >
           <FcGoogle size={32} />
-          <p>Continue with Google</p>
+          <p className='font-bold'>Continue with Google</p>
         </button>
         <p className='px-6 text-sm text-center text-gray-400'>
           Don&apos;t have an account yet?{' '}
           <Link
             to='/signup'
-            className='hover:underline hover:text-rose-500 text-gray-600'
+            className='hover:underline hover:text-rose-500 text-gray-600 font-bold'
           >
             Sign up
           </Link>
