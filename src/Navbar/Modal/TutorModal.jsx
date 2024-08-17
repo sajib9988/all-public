@@ -14,7 +14,7 @@ const TutorModal = ({ closeModal, isOpen }) => {
 
   const handleContinue = () => {
     closeModal();
-    navigate('/terms-and-conditions');
+    navigate('/tutor-form');
   };
 
   return (
@@ -48,7 +48,7 @@ const TutorModal = ({ closeModal, isOpen }) => {
                   as='h3'
                   className='text-lg font-medium text-center leading-6 text-gray-900'
                 >
-                  Become A Host!
+                  Become A Tutor!
                 </DialogTitle>
                 <div className='mt-2'>
                   <p className='text-sm text-gray-500'>

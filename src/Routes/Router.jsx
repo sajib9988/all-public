@@ -19,6 +19,7 @@ import CreateNote from './../Dashboard-pages/DashboardStudent/CreateNote';
 import ManagePersonalNote from './../Dashboard-pages/DashboardStudent/ManagePersonalNote';
 import Profile from './../Dashboard-pages/Shared/Profile';
 import Details from './../Card&details/Details';
+import TutorForm from './../Terms-Conditions/TutorForm';
 
 
 
@@ -38,7 +39,7 @@ export const Router = createBrowserRouter([
   { path: '/login', element: <Login /> },
   { path: '/signup', element: <SignUp /> },
   { path: '/details/:id', element: <Details></Details> },
-  { path: '/terms-and-conditions', element:<TermsAndConditions></TermsAndConditions>  },
+  { path: '/tutor-form', element:<TutorForm></TutorForm>  },
 
 
 

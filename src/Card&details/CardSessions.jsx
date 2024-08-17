@@ -26,13 +26,16 @@ const CardSessions = () => {
 
   return (
     <div>
-      <h1 className='font-bold text-center text-3xl mt-4 border bg-gray-100 p-3  mb-4'>All Study Sessions</h1>
+      <h1 className='font-bold text-center text-3xl mt-4 border bg-gray-100 p-3 mb-4'>All Study Sessions</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {allSessions.length === 0 ? (
           <div>No sessions available</div>
         ) : (
           allSessions.map(session => (
-            <div key={session._id.$oid} className="relative bg-white shadow-lg rounded-lg p-4 flex flex-col justify-between">
+            <div 
+              key={session._id} // Adjust this if _id is not a string or number
+              className="relative bg-white shadow-lg rounded-lg p-4 flex flex-col justify-between"
+            >
               <div>
                 <img 
                   src={session.image} 

@@ -1,36 +1,47 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { FcGoogle } from 'react-icons/fc'
-
-import toast from 'react-hot-toast'
-import { TbFidgetSpinner } from 'react-icons/tb'
-import { useForm } from 'react-hook-form'
-import { useState } from 'react'
-import useAuth from './../Hook/UseAuth'
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { FcGoogle } from 'react-icons/fc';
+import toast from 'react-hot-toast';
+import { TbFidgetSpinner } from 'react-icons/tb';
+import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import useAuth from './../Hook/UseAuth';
 import useAxiosPublic from './../Hook/axiosPublic';
 
 const Login = () => {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const from = location?.state || '/'
-  const { signInWithGoogle, signIn, loading, setLoading } = useAuth()
-  const [email, setEmail] = useState('')
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state || '/';
+  const { signInWithGoogle, signInUser, loading, setLoading } = useAuth();
+  const [email, setEmail] = useState('');
   const axiosPublic = useAxiosPublic(); // Get axios instance
 
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const onSubmit = async data => {
-    const { email, password } = data
+  const onSubmit = async (data) => {
+    const { email, password } = data;
     try {
-      setLoading(true)
-      await signIn(email, password)
-      toast.success('Login Successful')
-      navigate(from)
+        setLoading(true);
+        await signInUser(email, password);
+
+        // Delay to ensure token is set properly
+        setTimeout(() => {
+            const token = localStorage.getItem('access-token');
+            if (token) {
+                toast.success('Login Successful');
+                navigate(from, { replace: true });
+            } else {
+                toast.error('Token not found');
+            }
+        }, 500); // Adjust delay as needed
     } catch (error) {
-      toast.error('Login Failed')
+        toast.error('Login Failed: ' + error.message);
     } finally {
-      setLoading(false)
+        setLoading(false);
     }
-  }
+};
+
+
+
 
   const handleGoogleSignIn = async () => {
     setLoading(true);
@@ -50,10 +61,9 @@ const Login = () => {
       const response = await axiosPublic.post('/users', currentUser);
 
       if (response.data.insertedId) {
-        console.log('User added to the database');
         toast.success('Signup Successful');
-        
       }
+
       navigate(from, { replace: true });
     } catch (error) {
       console.error('Error:', error);
@@ -62,12 +72,9 @@ const Login = () => {
       setLoading(false);
     }
   };
+
   return (
-    
     <div className='flex justify-center items-center min-h-screen'>
-      
-   
-      
       <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-green-300 text-gray-900'>
         <div className='mb-8 text-center'>
           <h1 className='my-3 text-4xl font-bold'>Log In</h1>
@@ -77,7 +84,7 @@ const Login = () => {
         </div>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className='space-y-6 ng-untouched ng-pristine ng-valid'
+          className='space-y-6'
         >
           <div className='space-y-4'>
             <div>
@@ -93,7 +100,6 @@ const Login = () => {
                 required
                 placeholder='Enter Your Email Here'
                 className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900'
-                data-temp-mail-org='0'
               />
               {errors.email && <span className='text-red-500'>Email is required</span>}
             </div>
@@ -141,12 +147,11 @@ const Login = () => {
           disabled={loading}
           onClick={handleGoogleSignIn}
           className='disabled:cursor-not-allowed flex justify-center items-center space-x-2 border-2 m-3 p-2 border-black rounded cursor-pointer'
-
         >
           <FcGoogle size={32} />
           <p className='font-bold'>Continue with Google</p>
         </button>
-        <p className='px-6 text-sm text-center text-gray-400'>
+        <p className='px-6 text-sm text-center font-bold text-black'>
           Don&apos;t have an account yet?{' '}
           <Link
             to='/signup'
@@ -158,7 +163,7 @@ const Login = () => {
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

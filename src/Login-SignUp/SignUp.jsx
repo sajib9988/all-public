@@ -1,4 +1,5 @@
 import { FcGoogle } from 'react-icons/fc';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import { TbFidgetSpinner } from 'react-icons/tb';
 import { useForm } from 'react-hook-form';
@@ -7,12 +8,16 @@ import useAuth from './../Hook/UseAuth';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import useAxiosPublic from './../Hook/axiosPublic';
+import { useState } from 'react';
 
 const SignUp = () => {
   const navigate = useNavigate();
   const { createUser, signInWithGoogle, updateUserProfile, loading, setLoading } = useAuth();
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const axiosPublic = useAxiosPublic();
+  
+  // State to toggle password visibility
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (data) => {
     const { name, email, password, image } = data;
@@ -131,12 +136,12 @@ const SignUp = () => {
               />
               {errors.email && <span className='text-red-500'>{errors.email.message}</span>}
             </div>
-            <div>
+            <div className='relative'>
               <label htmlFor='password' className='text-sm mb-2'>
                 Password
               </label>
               <input
-                type='password'
+                type={showPassword ? 'text' : 'password'}
                 id='password'
                 {...register('password', {
                   required: 'Password is required',
@@ -150,6 +155,12 @@ const SignUp = () => {
                 className='w-full px-4 py-2 h-12 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900'
               />
               {errors.password && <span className='text-red-500'>{errors.password.message}</span>}
+              <div
+                className='absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer mt-6'
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ?<FiEye size={24} />  : <FiEyeOff size={24} />}
+              </div>
             </div>
           </div>
           <div className='col-span-1 sm:col-span-2'>
@@ -181,7 +192,7 @@ const SignUp = () => {
           <FcGoogle size={32} />
           <p>Continue with Google</p>
         </button>
-        <p className='px-6 text-sm text-center text-gray-400'>
+        <p className='px-6 text-sm text-center text-black'>
           Already have an account?{' '}
           <Link
             to='/login'

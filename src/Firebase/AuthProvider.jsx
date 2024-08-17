@@ -36,7 +36,7 @@ const axiosPublic =useAxiosPublic();
         const result = await signInWithEmailAndPassword(auth, email, password);
         setLoading(false);
         return result;
-    };
+    }; 
 
     const signInWithGoogle = async () => {
         setLoading(true);
@@ -67,27 +67,28 @@ const axiosPublic =useAxiosPublic();
     };
 
     
-    
     useEffect(() => {
-        const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+        const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
             console.log("user in the auth state changed", currentUser);
             setUser(currentUser);
             if (currentUser) {
                 // Get token and store client
                 const userInfo = { email: currentUser.email };
-                axiosPublic.post('/jwt', userInfo)
-                    .then(res => {
-                        if (res.data.token) {
-                            localStorage.setItem('access-token', res.data.token);
-                            setLoading(false);
-                        }
-                    })
+                try {
+                    const response = await axiosPublic.post('/jwt', userInfo);
+                    if (response.data.token) {
+                        localStorage.setItem('access-token', response.data.token);
+                    }
+                } catch (error) {
+                    console.error('Token fetch error:', error);
+                }
             } else {
                 // Remove token if user is not authenticated
                 localStorage.removeItem('access-token');
-                setLoading(false);
             }
+            setLoading(false);
         });
+    
         return () => {
             unSubscribe();
         };

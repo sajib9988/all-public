@@ -1,5 +1,6 @@
 
 import CardSessions from '../Card&details/CardSessions';
+import Tutors from '../Tutors/Tutors';
 import Banner from './../Banner/Banner';
 
 
@@ -9,6 +10,7 @@ const Home = () => {
         
           <Banner></Banner>
           <CardSessions></CardSessions>
+          <Tutors></Tutors>
         </div>
     );
 };

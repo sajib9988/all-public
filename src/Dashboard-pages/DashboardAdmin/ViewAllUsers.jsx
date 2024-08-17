@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import useAxiosSecure from '../../Hook/useAxiosSecure';
 import { AiOutlineEdit, AiOutlineClose } from 'react-icons/ai'; // Importing icons
+import toast from 'react-hot-toast';
 
 const ViewAllUsers = () => {
   const axiosSecure = useAxiosSecure();
@@ -29,21 +30,14 @@ const ViewAllUsers = () => {
 
 
 
-
-
-
-
-
-
-
-
-  // Mutation for updating user role
+// Mutation for updating user role
   const updateUserRole = useMutation({
     mutationFn: async ({ userId, role }) => {
       await axiosSecure.patch(`/users/${userId}/role`, { role });
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['users']);
+        
     },
   });
 
@@ -65,6 +59,7 @@ const ViewAllUsers = () => {
   // Handler for changing user status
   const handleStatusChange = (userId, status) => {
     updateUserStatus.mutate({ userId, status });
+    toast.success('User status updated successfully!'); 
   };
 
   // Handler for searching users
