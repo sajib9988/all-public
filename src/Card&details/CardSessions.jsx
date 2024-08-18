@@ -65,5 +65,5 @@ const CardSessions = () => {
     </div>
   );
 };
-
+ 
 export default CardSessions;

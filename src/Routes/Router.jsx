@@ -9,7 +9,6 @@ import Shared from './../Dashboard-pages/Shared/Shared';
 import ViewAllMaterials from './../Dashboard-pages/DashboardAdmin/ViewAllMaterials';
 import ViewAllUsers from './../Dashboard-pages/DashboardAdmin/ViewAllUsers';
 import ViewAllStudySessionAdmin from './../Dashboard-pages/DashboardAdmin/ViewAllStudySessionAdmin';
-import TermsAndConditions from "../Terms-Conditions/TermsAndConditions";
 import AddStudySession from './../Dashboard-pages/DashboardTutor/AddStudySession';
 import ViewAllStudySession from './../Dashboard-pages/DashboardTutor/ViewAllStudySession';
 import UploadMaterial from './../Dashboard-pages/DashboardTutor/UploadMaterial';
@@ -20,9 +19,10 @@ import ManagePersonalNote from './../Dashboard-pages/DashboardStudent/ManagePers
 import Profile from './../Dashboard-pages/Shared/Profile';
 import Details from './../Card&details/Details';
 import TutorForm from './../Terms-Conditions/TutorForm';
-
-
-
+import StudyMaterials from "../Dashboard-pages/DashboardStudent/StudyMaterials";
+import PrivateRoute from './../PrivateRoutes/PrivateRoute';
+import TutorRoute from "../PrivateRoutes/TutorRoute";
+import AdminRoute from "../PrivateRoutes/AdminRoute";
 
 export const Router = createBrowserRouter([
   {
@@ -38,66 +38,71 @@ export const Router = createBrowserRouter([
   },
   { path: '/login', element: <Login /> },
   { path: '/signup', element: <SignUp /> },
-  { path: '/details/:id', element: <Details></Details> },
-  { path: '/tutor-form', element:<TutorForm></TutorForm>  },
-
-
+  { path: '/details/:id', element: <PrivateRoute><Details /></PrivateRoute> },
+  { path: '/tutor-form', element: <PrivateRoute><TutorForm /></PrivateRoute> },
 
   {
     path: '/dashboard',
-    element: <Dashboard />,
+    element: <PrivateRoute><Dashboard /></PrivateRoute>,
     children: [
-      // Shared Part
+      // Shared Part (Guarded by PrivateRoute)
       {
         index: true,
         element: <Shared />,
       },
-      // Tutor Part
+      {
+        path: 'profile',
+        element: <Profile />,
+      },
+
+      // Tutor Part (Guarded by TutorRoute)
       {
         path: 'create-session',
-        element: <AddStudySession />,
+        element: <TutorRoute><AddStudySession /></TutorRoute>,
       },
       {
         path: 'my-sessions',
-        element: <ViewAllStudySession />,
+        element: <TutorRoute><ViewAllStudySession /></TutorRoute>,
       },
       {
         path: 'upload-materials',
-        element: <UploadMaterial />,
+        element: <TutorRoute><UploadMaterial /></TutorRoute>,
       },
       {
         path: 'view-materials',
-        element: <ViewMaterial />,
+        element: <TutorRoute><ViewMaterial /></TutorRoute>,
       },
-      // Admin Part
+
+      // Admin Part (Guarded by AdminRoute)
       {
         path: 'view-materials-admin',
-        element: <ViewAllMaterials />,
+        element: <AdminRoute><ViewAllMaterials /></AdminRoute>,
       },
       {
         path: 'manage-users',
-        element: <ViewAllUsers/>,
+        element: <AdminRoute><ViewAllUsers /></AdminRoute>,
       },
       {
         path: 'manage-sessions',
-        element: <ViewAllStudySessionAdmin/>,
+        element: <AdminRoute><ViewAllStudySessionAdmin /></AdminRoute>,
       },
-      // Student Part
+
+      // Student Part (Guarded by PrivateRoute)
       {
         path: 'booked-sessions',
-        element: <ViewBookedSession />,
+        element: <PrivateRoute><ViewBookedSession /></PrivateRoute>,
       },
       {
         path: 'create-note',
-        element: <CreateNote />,
+        element: <PrivateRoute><CreateNote /></PrivateRoute>,
       },
       {
         path: 'manage-notes',
-        element: <ManagePersonalNote />,
+        element: <PrivateRoute><ManagePersonalNote /></PrivateRoute>,
       },
       {
-        path: 'profile',
-        element: <Profile></Profile>,
+        path: 'study-materials',
+        element: <PrivateRoute><StudyMaterials /></PrivateRoute>,
       },
     ],
   },
