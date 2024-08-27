@@ -1,3 +1,4 @@
+import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosPublic from './../Hook/axiosPublic';
 import { Link } from 'react-router-dom';
@@ -6,7 +7,7 @@ const CardSessions = () => {
   const axiosPublic = useAxiosPublic();
 
   const { data: allSessions = [], isLoading, error } = useQuery({
-    queryKey: ['allSessions'], 
+    queryKey: ['allSessions'],
     queryFn: async () => {
       try {
         const response = await axiosPublic.get('/all-collection');
@@ -32,15 +33,15 @@ const CardSessions = () => {
           <div>No sessions available</div>
         ) : (
           allSessions.map(session => (
-            <div 
-              key={session._id} // Adjust this if _id is not a string or number
+            <div
+              key={session._id}
               className="relative bg-white shadow-lg rounded-lg p-4 flex flex-col justify-between"
             >
               <div>
-                <img 
-                  src={session.image} 
-                  alt={session.title} 
-                  className="w-full h-60 object-cover rounded-t-lg" 
+                <img
+                  src={session.image}
+                  alt={session.title}
+                  className="w-full h-60 object-cover rounded-t-lg"
                 />
                 <h2 className="text-lg font-semibold mt-2">{session.title}</h2>
                 <p className="text-gray-600">{session.description}</p>
@@ -51,6 +52,22 @@ const CardSessions = () => {
                 <p>
                   Registration: {new Date(session.registrationStartDate).toLocaleDateString()} - {new Date(session.registrationEndDate).toLocaleDateString()}
                 </p>
+                
+                {/* Reviews Section */}
+                <div className="mt-4">
+                  <h3 className="font-semibold">Reviews:</h3>
+                  {session.reviews && session.reviews.length > 0 ? (
+                    session.reviews.map((review, index) => (
+                      <div key={index} className="bg-yellow-700 font-bold p-2 mt-2 rounded">
+                        <p>Rating: {review.rating}/5</p>
+                        <p>{review.review}</p>
+                        {/* <p className="text-sm text-gray-500">By: {review.userEmail}</p> */}
+                      </div>
+                    ))
+                  ) : (
+                    <p>No reviews yet</p>
+                  )}
+                </div>
               </div>
               <Link
                 to={`/details/${session._id}`}
@@ -65,5 +82,5 @@ const CardSessions = () => {
     </div>
   );
 };
- 
+
 export default CardSessions;

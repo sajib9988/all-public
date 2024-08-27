@@ -6,6 +6,7 @@ import useAuth from '../Hook/UseAuth';
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
+  // console.log('user', user, loading)
   const location = useLocation();
   const [redirectPath, setRedirectPath] = useState(null);
 

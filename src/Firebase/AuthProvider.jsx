@@ -21,7 +21,7 @@ const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => { 
     // 3. State Management
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 const axiosPublic =useAxiosPublic();
     // 4. Auth Functions
     const createUser = async (email, password) => {
@@ -69,7 +69,7 @@ const axiosPublic =useAxiosPublic();
     
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
-            console.log("user in the auth state changed", currentUser);
+            // console.log("user in the auth state changed", currentUser);
             setUser(currentUser);
             if (currentUser) {
                 // Get token and store client
@@ -78,6 +78,7 @@ const axiosPublic =useAxiosPublic();
                     const response = await axiosPublic.post('/jwt', userInfo);
                     if (response.data.token) {
                         localStorage.setItem('access-token', response.data.token);
+                        setLoading(false);
                     }
                 } catch (error) {
                     console.error('Token fetch error:', error);
@@ -85,8 +86,9 @@ const axiosPublic =useAxiosPublic();
             } else {
                 // Remove token if user is not authenticated
                 localStorage.removeItem('access-token');
+                setLoading(false);
             }
-            setLoading(false);
+            
         });
     
         return () => {

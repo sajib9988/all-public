@@ -23,6 +23,7 @@ import StudyMaterials from "../Dashboard-pages/DashboardStudent/StudyMaterials";
 import PrivateRoute from './../PrivateRoutes/PrivateRoute';
 import TutorRoute from "../PrivateRoutes/TutorRoute";
 import AdminRoute from "../PrivateRoutes/AdminRoute";
+import Payment from "../PaymentParts/Payment";
 
 export const Router = createBrowserRouter([
   {
@@ -40,6 +41,11 @@ export const Router = createBrowserRouter([
   { path: '/signup', element: <SignUp /> },
   { path: '/details/:id', element: <PrivateRoute><Details /></PrivateRoute> },
   { path: '/tutor-form', element: <PrivateRoute><TutorForm /></PrivateRoute> },
+  { path: '/payment/:id', 
+    element: <PrivateRoute><Payment></Payment></PrivateRoute>,
+    
+
+   },
 
   {
     path: '/dashboard',
@@ -101,7 +107,7 @@ export const Router = createBrowserRouter([
         element: <PrivateRoute><ManagePersonalNote /></PrivateRoute>,
       },
       {
-        path: 'study-materials',
+        path: 'study-materials/:email',
         element: <PrivateRoute><StudyMaterials /></PrivateRoute>,
       },
     ],

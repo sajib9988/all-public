@@ -3,7 +3,7 @@ import { FcGoogle } from 'react-icons/fc';
 import toast from 'react-hot-toast';
 import { TbFidgetSpinner } from 'react-icons/tb';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useAuth from './../Hook/UseAuth';
 import useAxiosPublic from './../Hook/axiosPublic';
 
@@ -11,11 +11,17 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state || '/';
-  const { signInWithGoogle, signInUser, loading, setLoading } = useAuth();
+  console.log(from)
+  const { signInWithGoogle, signInUser, loading, setLoading,user } = useAuth();
   const [email, setEmail] = useState('');
   const axiosPublic = useAxiosPublic(); // Get axios instance
 
   const { register, handleSubmit, formState: { errors } } = useForm();
+  useEffect(() => {
+    if (user) {
+      navigate(from, { replace: true });
+    }
+  }, [user, navigate, from]);
 
   const onSubmit = async (data) => {
     const { email, password } = data;
@@ -65,6 +71,7 @@ const Login = () => {
       }
 
       navigate(from, { replace: true });
+      console.log('success',navigate)
     } catch (error) {
       console.error('Error:', error);
       toast.error('Google Sign-In failed: ' + error.message);

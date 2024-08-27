@@ -17,7 +17,6 @@ const Details = () => {
     queryKey: ['session', id],
     queryFn: async () => {
       const response = await axiosSecure.get(`/all-collection/${id}`);
-      console.log(response);
       return response.data;
     }
   });
@@ -27,54 +26,78 @@ const Details = () => {
   if (!session) return <div>No session data available.</div>;
 
   const handleBooking = async () => {
-    const bookingData = {
-      studentName: user?.displayName,
-      studentEmail: user?.email,  // Assuming the user's email is used
-      sessionTitle: session.title,  // Using the session title
-      bookingDate: bookingDate,  // Using the selected booking date
-      sessionId: id,  // Include the session ID
-      tutorId: session.tutorId,
-      tutorName: session.tutor?.name,
-      tutorEmail: session.tutor?.email,
-      sessionFee: session.sessionFee,
-    };
-    
     try {
-      const response = await axiosSecure.post('/booking', bookingData);
+      const existingBookingResponse = await axiosSecure.get(`/bookings/check/${id}`, {
+        params: { studentEmail: user?.email }
+      });
+
+      const existingBooking = existingBookingResponse.data;
+
+      if (existingBooking) {
+        toast.error('You have already booked this session.');
+        return;
+      }
+
+      const bookingData = {
+        studentName: user?.displayName,
+        studentEmail: user?.email,
+        sessionTitle: session.title,
+        bookingDate: bookingDate,
+        sessionId: id,
+        tutorId: session.tutorId,
+        tutorName: session.tutor?.name,
+        tutorEmail: session.tutor?.email,
+        sessionFee: session.sessionFee,
+      };
+
+      await axiosSecure.post('/booking', bookingData);
       toast.success('Booking successful!');
-      console.log('Booking successful:', response.data);
-      // You can add further actions here, such as redirecting the user
     } catch (error) {
       toast.error('Error booking session!');
-      console.error('Error booking session:', error);
     }
   };
 
   return (
-    <div className="absolute inset-0 bg-white p-4 shadow-lg rounded-lg">
-      <Navbar />
-      <Toaster position="top-right" reverseOrder={false} />
-      <img src={session.image} alt={session.title} className="w-full h-64 object-cover rounded-md" />
-      <h2 className="text-xl font-semibold mt-4">{session.title}</h2>
-      <p className="text-gray-700 mt-2">{session.description}</p>
-      <p className="text-gray-800 mt-2">Start Date: {new Date(session.classStartDate).toLocaleDateString()}</p>
-      <p className="text-gray-800 mt-2">End Date: {new Date(session.classEndDate).toLocaleDateString()}</p>
-      <p className="text-gray-800 mt-2">Fee: ${session.sessionFee}</p>
-      <p className="text-gray-800 mt-2">Tutor: {session.tutor?.name} ({session.tutor?.email})</p>
-
-      <div className="mt-4">
-        <label className="block text-gray-700">Booking Date:</label>
-        <input 
-          type="date" 
-          value={bookingDate} 
-          onChange={(e) => setBookingDate(e.target.value)} 
-          className="w-full p-2 border border-gray-300 rounded-md"
-        />
+    <div className="bg-gray-50 border">
+      <div className="sticky top-0 z-50 border-emerald-400">
+        <Navbar />
       </div>
 
-      <button className="mt-4 bg-green-500 text-white py-2 px-4 rounded" onClick={handleBooking}>
-        Book Session
-      </button>
+      <div className="mt-[140px] mx-auto max-w-2xl bg-blue-600 p-4 shadow-lg rounded-lg border">
+        <Toaster position="top-right" reverseOrder={false} />
+        
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div>
+            <div className="flex justify-center items-center">
+              <img src={session.image} alt={session.title} className="w-full h-64 object-cover rounded-md" />
+            </div>
+            <h2 className="text-xl font-semibold mt-4 text-white font-bold">{session.title}</h2>
+            <p className="text-white mt-2 font-bold">{session.description}</p>
+          </div>
+          
+          <div>
+            <p className="text-white mt-2 font-bold">Registration End Date: {new Date(session.registrationEndDate).toLocaleDateString()}</p>
+            <p className="text-white mt-2 font-bold">Class Start Date: {new Date(session.classStartDate).toLocaleDateString()}</p>
+            <p className="text-white mt-2 font-bold">Class End Date: {new Date(session.classEndDate).toLocaleDateString()}</p>
+            <p className="text-white mt-2 font-bold">Fee: ${session.sessionFee}</p>
+            <p className="text-white mt-2 font-bold">Tutor: {session.tutor?.name} ({session.tutor?.email})</p>
+          </div>
+        </div>
+
+        <div className="mt-4">
+          <label className="block text-white font-bold">Booking Date:</label>
+          <input 
+            type="date" 
+            value={bookingDate} 
+            onChange={(e) => setBookingDate(e.target.value)} 
+            className="w-full p-2 border border-gray-300 rounded-md"
+          />
+        </div>
+
+        <button className="mt-4 bg-green-500 text-white py-2 px-4 rounded font-bold" onClick={handleBooking}>
+          Book Session
+        </button>
+      </div>
     </div>
   );
 };
