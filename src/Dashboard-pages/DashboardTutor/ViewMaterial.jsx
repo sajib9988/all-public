@@ -27,7 +27,7 @@ const ViewMaterial = () => {
     <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
       <h1 className="text-3xl font-extrabold mb-6 text-center text-gray-800">
         View Material
-        {data.length > 0 ? `: ${data.length} items found` : ': No materials found'}
+        {data.length > 0 ? `: ${data.length} items ` : ': No materials found'}
       </h1>
       <ul className="space-y-6">
         {data.map((material) => (

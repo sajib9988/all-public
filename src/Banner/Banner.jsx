@@ -24,7 +24,7 @@ const bannerData = [
     description: "Engage with peers and excel in your studies.",
     imageUrl: "https://i.ibb.co/25bRPgf/creative-students-working-together.jpg",
     ctaText: "Join Sessions",
-    ctaLink: "/sessions",
+    ctaLink: "/login",
   },
 ];
 

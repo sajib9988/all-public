@@ -64,7 +64,7 @@ const Details = () => {
       </div>
 
       <div className="mt-[140px] mx-auto max-w-2xl bg-blue-600 p-4 shadow-lg rounded-lg border">
-        <Toaster position="top-right" reverseOrder={false} />
+        {/* <Toaster position="top-right" reverseOrder={false} /> */}
         
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div>
@@ -87,6 +87,7 @@ const Details = () => {
         <div className="mt-4">
           <label className="block text-white font-bold">Booking Date:</label>
           <input 
+            required
             type="date" 
             value={bookingDate} 
             onChange={(e) => setBookingDate(e.target.value)} 
