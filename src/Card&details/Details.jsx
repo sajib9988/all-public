@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from './../LoadingSpinner/LoadingSpinner';
 import Navbar from './../Navbar/Navbar';
 import useAuth from '../Hook/UseAuth';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import useAxiosSecure from '../Hook/useAxiosSecure';
 import { useState } from 'react';
 
@@ -11,7 +11,7 @@ const Details = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
-  const [bookingDate, setBookingDate] = useState('');
+  const [isBooked, setIsBooked] = useState(false);
 
   const { data: session, isLoading, error } = useQuery({
     queryKey: ['session', id],
@@ -38,11 +38,14 @@ const Details = () => {
         return;
       }
 
+      // Set bookingDate to current date and time
+      const bookingDate = new Date().toISOString();
+
       const bookingData = {
         studentName: user?.displayName,
         studentEmail: user?.email,
         sessionTitle: session.title,
-        bookingDate: bookingDate,
+        bookingDate: bookingDate, // Use current date and time
         sessionId: id,
         tutorId: session.tutorId,
         tutorName: session.tutor?.name,
@@ -51,6 +54,7 @@ const Details = () => {
       };
 
       await axiosSecure.post('/booking', bookingData);
+      setIsBooked(true); // Update booking status
       toast.success('Booking successful!');
     } catch (error) {
       toast.error('Error booking session!');
@@ -65,7 +69,7 @@ const Details = () => {
 
       <div className="mt-[140px] mx-auto max-w-2xl bg-blue-600 p-4 shadow-lg rounded-lg border">
         {/* <Toaster position="top-right" reverseOrder={false} /> */}
-        
+
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div>
             <div className="flex justify-center items-center">
@@ -74,7 +78,7 @@ const Details = () => {
             <h2 className="text-xl font-semibold mt-4 text-white font-bold">{session.title}</h2>
             <p className="text-white mt-2 font-bold">{session.description}</p>
           </div>
-          
+
           <div>
             <p className="text-white mt-2 font-bold">Registration End Date: {new Date(session.registrationEndDate).toLocaleDateString()}</p>
             <p className="text-white mt-2 font-bold">Class Start Date: {new Date(session.classStartDate).toLocaleDateString()}</p>
@@ -84,19 +88,24 @@ const Details = () => {
           </div>
         </div>
 
-        <div className="mt-4">
+        {/* Remove or hide the booking date input field */}
+        {/* <div className="mt-4">
           <label className="block text-white font-bold">Booking Date:</label>
-          <input 
+          <input
             required
-            type="date" 
-            value={bookingDate} 
-            onChange={(e) => setBookingDate(e.target.value)} 
+            type="date"
+            value={bookingDate}
+            onChange={(e) => setBookingDate(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded-md"
           />
-        </div>
+        </div> */}
 
-        <button className="mt-4 bg-green-500 text-white py-2 px-4 rounded font-bold" onClick={handleBooking}>
-          Book Session
+        <button
+          className={`mt-4 py-2 px-4 rounded font-bold ${isBooked ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 text-white'}`}
+          onClick={handleBooking}
+          disabled={isBooked} // Disable button if booked
+        >
+          {isBooked ? 'Booked' : 'Book Session'}
         </button>
       </div>
     </div>

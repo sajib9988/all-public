@@ -1,18 +1,16 @@
-import  { useEffect, useState } from 'react';
-
-import { FaStar } from 'react-icons/fa'; // FontAwesome Star Icon for ratings
-import { motion } from 'framer-motion'; // Framer Motion for animations
+import { useEffect, useState } from 'react';
+import { FaStar } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 import useAxiosSecure from '../Hook/useAxiosSecure';
 
 const Tutors = () => {
   const [tutors, setTutors] = useState([]);
-  const axiosSecure = useAxiosSecure()
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     const fetchTutors = async () => {
       try {
         const response = await axiosSecure.get('/tutors');
-        console.log(response.data)
         setTutors(response.data);
       } catch (error) {
         console.error('Error fetching tutors:', error);
@@ -28,8 +26,8 @@ const Tutors = () => {
       stars.push(
         <FaStar
           key={i}
-          color={i < rating ? '#ffc107' : '#e4e5e9'}
-          className="star"
+          color={i < rating ? '#facc15' : '#d1d5db'}
+          className="star text-xl"
         />
       );
     }
@@ -37,33 +35,32 @@ const Tutors = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-center text-2xl font-bold mb-8">Our Tutors</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className="container mx-auto p-6 bg-green-900 bg-opacity-30 rounded-lg shadow-lg mt-5">
+      <h1 className="text-center text-3xl font-extrabold text-gray-800 mb-12">Meet Our Tutors</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {tutors.map((tutor) => (
           <motion.div
             key={tutor.email}
-            className="bg-white p-6 rounded-lg shadow-md"
+            className="bg-white border p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <div className="flex justify-center mb-4">
+            <div className="flex justify-center mb-6 ">
               <img
                 src={tutor.image}
                 alt={tutor.name}
-                className=" rounded-full object-cover"
+                className="w-24 h-24 rounded-full object-cover border-4 border-gray-200"
               />
             </div>
-            <h2 className="text-lg font-bold text-center mb-2">{tutor.name}</h2>
-            <p className="text-gray-700 font-bold text-center mb-2">Email: {tutor.email}</p>
-            <p className="text-gray-700 font-bold text-center mb-2">Education: {tutor.education}</p>
-            <p className="text-gray-700 font-bold text-center mb-2">Experience: {tutor.experience}</p>
-            <p className="text-gray-700 font-bold text-center mb-2">Skills: {tutor.skills}</p>
-            <div className="flex justify-center items-center mb-2">
+            <h2 className="text-xl font-semibold text-center text-gray-900 mb-3">{tutor.name}</h2>
+            <p className="text-gray-600 text-center mb-2">Email: <span className="font-medium">{tutor.email}</span></p>
+            <p className="text-gray-600 text-center mb-2">Education: <span className="font-medium">{tutor.education}</span></p>
+            <p className="text-gray-600 text-center mb-2">Experience: <span className="font-medium">{tutor.experience}</span></p>
+            <p className="text-gray-600 text-center mb-4">Skills: <span className="font-medium">{tutor.skills}</span></p>
+            <div className="flex justify-center items-center">
               <div className="flex">{renderStars(parseFloat(tutor.ratings))}</div>
-              <span className="ml-2 font-bold text-gray-700">{tutor.ratings}</span>
+              <span className="ml-2 text-gray-800 font-semibold">{tutor.ratings}</span>
             </div>
-            <p className="text-gray-700 font-bold text-center">Status: {tutor.status}</p>
           </motion.div>
         ))}
       </div>
