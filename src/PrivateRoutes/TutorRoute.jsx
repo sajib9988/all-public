@@ -13,7 +13,7 @@ const TutorRoute = ({ children }) => {
         return <progress className="progress w-56"></progress>;
     }
 
-    if (user && role === 'tutor') {
+    if (user && role.toLowerCase() === 'tutor') {
         return children;
     }
 

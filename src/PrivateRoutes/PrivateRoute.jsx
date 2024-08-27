@@ -1,5 +1,5 @@
-import  { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import  { useEffect, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import useAuth from '../Hook/UseAuth';

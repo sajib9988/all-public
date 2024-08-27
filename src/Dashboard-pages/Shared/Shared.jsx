@@ -39,12 +39,12 @@ const Shared = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-5xl font-bold text-green-800 mb-4">
+      <h1 className="text-5xl font-bold text-red-500 mb-4">
         <TextTransition springConfig={presets.wobbly}>
           {texts[index % texts.length]}
         </TextTransition>
       </h1>
-      <p className="text-2xl text-gray-600">
+      <p className="text-2xl text-black">
         {user?.displayName ? `Logged in as ${user.displayName}` : 'Welcome, Guest!'}
       </p>
     </div>

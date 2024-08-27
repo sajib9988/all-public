@@ -8,7 +8,7 @@ const bannerData = [
     description: "Join a community of learners and grow together.",
     imageUrl: "https://i.ibb.co/ysjS1Z4/technology.jpg",
     ctaText: "Get Started",
-    ctaLink: "/signup",
+    ctaLink: "/login",
   },
   {
     id: 2,
