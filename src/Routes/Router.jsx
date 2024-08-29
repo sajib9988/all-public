@@ -41,11 +41,13 @@ export const Router = createBrowserRouter([
   { path: '/signup', element: <SignUp /> },
   { path: '/details/:id', element: <PrivateRoute><Details /></PrivateRoute> },
   { path: '/tutor-form', element: <PrivateRoute><TutorForm /></PrivateRoute> },
-  { path: '/payment/:id', 
-    element: <PrivateRoute><Payment></Payment></PrivateRoute>,
+  {
+    path: '/payment/:sessionId',
+    element: <PrivateRoute><Payment /></PrivateRoute>,
+    loader: ({ params }) => fetch(`http://localhost:5000/bookings-payment/${params?.sessionId}`)
     
+},
 
-   },
 
   {
     path: '/dashboard',

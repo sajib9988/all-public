@@ -14,12 +14,13 @@ const CheckoutForm = ({ sessionId, sessionTitle, sessionFee, tutorEmail, onPayme
     const { user } = useAuth();
     const [isProcessing, setIsProcessing] = useState(false);
     const [clientSecret, setClientSecret] = useState('');
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (parseInt(sessionFee) > 0) {
             axiosSecure.post('/create-payment-intent', { sessionFee: parseInt(sessionFee) })
                 .then(res => {
+                    console.log('Client secret received:', res.data.clientSecret);
                     setClientSecret(res.data.clientSecret);
                 })
                 .catch(error => {
@@ -60,7 +61,6 @@ const CheckoutForm = ({ sessionId, sessionTitle, sessionFee, tutorEmail, onPayme
             }
 
             if (paymentIntent?.status === 'succeeded') {
-                toast.success('Payment successful!');
                 console.log('Payment successful. Payment details:', {
                     sessionId,
                     sessionTitle,
@@ -79,20 +79,21 @@ const CheckoutForm = ({ sessionId, sessionTitle, sessionFee, tutorEmail, onPayme
                         tutorEmail,
                         userEmail: user?.email,
                         transactionId: paymentIntent.id,
+                        bookingDate,
                     });
 
-                    console.log('API Response:', response.data); // Log the entire response
+                    console.log('API Response:', response.data);
 
-                    if (response.data.message === 'Payment recorded successfully.') {
-                        toast.success('Payment has been recorded successfully.');
+                    if (response.data.success) {
+                        toast.success('Payment successful and recorded!');
                         onPaymentComplete(true);
-                        navigate('/booked-sessions'); // Redirect on successful payment
+                        setTimeout(() => navigate('/dashboard/booked-sessions'), 2000); // Delay navigation
                     } else {
-                        toast.error('Failed to record payment.');
+                        toast.error('Payment successful, but failed to record. Please contact support.');
                     }
                 } catch (error) {
                     console.error('Error saving payment data:', error);
-                    toast.error('Failed to record payment.');
+                    toast.error('Payment successful, but failed to record. Please contact support.');
                 }
             } else {
                 toast.error('Payment failed. Please try again.');

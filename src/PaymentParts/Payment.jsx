@@ -1,58 +1,41 @@
-import { useParams } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import { useQuery } from '@tanstack/react-query';
-import useAxiosSecure from './../Hook/useAxiosSecure';
-import useAuth from './../Hook/UseAuth';
 import CheckoutForm from './CheckOutForm';
-
 const stripePromise = loadStripe(import.meta.env.VITE_Payment_Gateway_PK);
 
 const Payment = () => {
-    const { sessionId } = useParams();
-    const axiosSecure = useAxiosSecure();
-    const { user } = useAuth();
+    const booking = useLoaderData();
+    console.log('Booking data:', booking);
 
-    const { data: booking, error, isLoading } = useQuery({
-        queryKey: ['booking', sessionId, user?.email],
-        queryFn: async () => {
-            if (!user?.email) throw new Error("User email is not available");
-            const response = await axiosSecure.get(`/bookings-payment/${sessionId}`, {
-                params: { studentEmail: user.email }
-            });
-            console.log(response.data);
-            return response.data;
-        },
-        retry: 3,
-        onError: (error) => {
-            console.error('Error fetching booking:', error);
-        }
-    });
+    if (!booking) {
+        return <p>Loading booking data...</p>;
+    }
 
-    if (isLoading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error.message}</p>;
-    if (!booking) return <p>No booking data available.</p>;
+    if (booking.error) {
+        return <p>Error: {booking.error}</p>;
+    }
 
     const handlePaymentComplete = (status) => {
-        // Handle payment status update if needed
+        console.log('Payment completed with status:', status);
     };
 
     return (
         <div className="p-6 mt-3">
             <div className="flex justify-center items-center">
                 <div>
-                    <h1 className="text-2xl font-bold mb-4">Payment for {booking.sessionTitle}</h1>
+                    <h1 className="text-2xl font-bold mb-4">Payment for {booking.sessionTitle || 'Unknown Session'}</h1>
                 </div>
             </div>
 
             <Elements stripe={stripePromise}>
                 <CheckoutForm
-                    sessionId={booking._id} 
+                    sessionId={booking._id}
                     sessionTitle={booking.sessionTitle}
-                    sessionFee={parseInt(booking.sessionFee)}
+                    sessionFee={parseInt(booking.sessionFee) || 0}
                     tutorEmail={booking.tutorEmail}
                     onPaymentComplete={handlePaymentComplete}
-                    bookingDate={new Date(booking.bookingDate).toLocaleDateString()}
+                    bookingDate={booking.bookingDate ? new Date(booking.bookingDate).toLocaleDateString() : 'Unknown Date'}
                 />
             </Elements>
         </div>
