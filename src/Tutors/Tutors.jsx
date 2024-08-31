@@ -49,7 +49,8 @@ const Tutors = () => {
               <img
                 src={tutor.image}
                 alt={tutor.name}
-                className="w-24 h-24 rounded-full object-cover border-4 border-gray-200"
+                className="w-44 h-34 rounded-full object-cover border-4 border-green-400"
+                style={{ objectPosition: 'top' }} 
               />
             </div>
             <h2 className="text-xl font-semibold text-center text-gray-900 mb-3">{tutor.name}</h2>
