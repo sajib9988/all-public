@@ -1,22 +1,30 @@
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React, { useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import useAxiosPublic from './../Hook/axiosPublic';
 import { Link } from 'react-router-dom';
 
 const CardSessions = () => {
   const axiosPublic = useAxiosPublic();
+  const queryClient = useQueryClient();
+  const [showAll, setShowAll] = useState(false);
 
-  const { data: allSessions = [], isLoading, error } = useQuery({
+  // Query to fetch paginated sessions
+  const { data: paginatedSessions = [], isLoading, error } = useQuery({
+    queryKey: ['paginatedSessions'],
+    queryFn: async () => {
+      const response = await axiosPublic.get('/all-collection?page=1&limit=6');
+      return response.data;
+    }
+  });
+
+  // Query to fetch all sessions
+  const { data: allSessions = [] } = useQuery({
     queryKey: ['allSessions'],
     queryFn: async () => {
-      try {
-        const response = await axiosPublic.get('/all-collection');
-        return response.data;
-      } catch (err) {
-        console.error('Error fetching data:', err);
-        throw err;
-      }
-    }
+      const response = await axiosPublic.get('/all-collection-all');
+      return response.data;
+    },
+    enabled: showAll, // Fetch all sessions only if showAll is true
   });
 
   if (isLoading) return <div>Loading...</div>;
@@ -25,14 +33,16 @@ const CardSessions = () => {
     return <div>Error fetching data</div>;
   }
 
+  const sessionsToDisplay = showAll ? allSessions : paginatedSessions;
+
   return (
     <div>
       <h1 className='font-bold text-center text-3xl mt-4 border bg-gray-100 p-3 mb-4'>All Study Sessions</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {allSessions.length === 0 ? (
+        {sessionsToDisplay.length === 0 ? (
           <div>No sessions available</div>
         ) : (
-          allSessions.map(session => (
+          sessionsToDisplay.map(session => (
             <div
               key={session._id}
               className="relative bg-white shadow-lg rounded-lg p-4 flex flex-col justify-between"
@@ -52,7 +62,7 @@ const CardSessions = () => {
                 <p>
                   Registration: {new Date(session.registrationStartDate).toLocaleDateString()} - {new Date(session.registrationEndDate).toLocaleDateString()}
                 </p>
-                
+
                 {/* Reviews Section */}
                 <div className="mt-4">
                   <h3 className="font-semibold">Reviews:</h3>
@@ -61,7 +71,6 @@ const CardSessions = () => {
                       <div key={index} className="bg-yellow-700 font-bold p-2 mt-2 rounded">
                         <p>Rating: {review.rating}/5</p>
                         <p>{review.review}</p>
-                        {/* <p className="text-sm text-gray-500">By: {review.userEmail}</p> */}
                       </div>
                     ))
                   ) : (
@@ -79,6 +88,19 @@ const CardSessions = () => {
           ))
         )}
       </div>
+
+      {/* "See All" button to show all sessions */}
+      {!showAll && paginatedSessions.length > 0 && (
+        <button
+          onClick={() => {
+            setShowAll(true);
+            queryClient.refetchQueries(['allSessions']); // Trigger fetch for all sessions
+          }}
+          className="block mx-auto mt-6 px-5 py-3 bg-black border font-bold text-white rounded-lg hover:bg-green-600"
+        >
+          See All
+        </button>
+      )}
     </div>
   );
 };
