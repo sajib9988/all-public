@@ -21,12 +21,12 @@ const Sidebar = () => {
   return (
     <>
       {/* Small Screen Navbar */}
-      <div className='bg-green-100 text-gray-800 flex justify-between md:hidden'>
+      <div className='bg-green-100  text-gray-800 flex justify-between md:hidden '>
         <div>
-          <div className='block cursor-pointer p-4 font-bold'>
+          <div className='block  cursor-pointer p-4 font-bold'>
             <Link to='/'>
               <img
-                src='https://i.ibb.co/4ZXzmq5/logo.png'
+                src='https://i.ibb.co/XSf9TxV/6258786184795404367-removebg-preview.png'
                 alt='logo'
                 width='100'
                 height='100'

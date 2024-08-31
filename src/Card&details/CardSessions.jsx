@@ -35,6 +35,11 @@ const CardSessions = () => {
 
   const sessionsToDisplay = showAll ? allSessions : paginatedSessions;
 
+  // Function to create a URL-friendly slug from the title
+  const createSlug = (title) => {
+    return title.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
+  };
+
   return (
     <div>
       <h1 className='font-bold text-center text-3xl mt-4 border bg-gray-100 p-3 mb-4'>All Study Sessions</h1>
@@ -68,7 +73,7 @@ const CardSessions = () => {
                   <h3 className="font-semibold">Reviews:</h3>
                   {session.reviews && session.reviews.length > 0 ? (
                     session.reviews.map((review, index) => (
-                      <div key={index} className="bg-yellow-700 font-bold p-2 mt-2 rounded">
+                      <div key={index} className="bg-slate-300 font-bold p-2 mt-2 rounded">
                         <p>Rating: {review.rating}/5</p>
                         <p>{review.review}</p>
                       </div>
@@ -79,7 +84,7 @@ const CardSessions = () => {
                 </div>
               </div>
               <Link
-                to={`/details/${session._id}`}
+                to={`/details/${session._id}/${createSlug(session.title)}`}
                 className="mt-4 text-center font-bold bg-black p-2 text-white rounded-lg hover:text-blue-700"
               >
                 View Details

@@ -39,7 +39,7 @@ export const Router = createBrowserRouter([
   },
   { path: '/login', element: <Login /> },
   { path: '/signup', element: <SignUp /> },
-  { path: '/details/:id', element: <PrivateRoute><Details /></PrivateRoute> },
+  { path: '/details/:id/:slug', element: <PrivateRoute><Details /></PrivateRoute> },
   { path: '/tutor-form', element: <PrivateRoute><TutorForm /></PrivateRoute> },
   {
     path: '/payment/:sessionId',

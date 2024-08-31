@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import useAuth from "../../Hook/UseAuth";
 import TextTransition, { presets } from "react-text-transition";
 
@@ -38,13 +38,13 @@ const Shared = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-5xl font-bold text-red-500 mb-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+      <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-red-500 mb-4 text-center">
         <TextTransition springConfig={presets.wobbly}>
           {texts[index % texts.length]}
         </TextTransition>
       </h1>
-      <p className="text-2xl text-black">
+      <p className="text-xl md:text-2xl text-black text-center">
         {user?.displayName ? `Logged in as ${user.displayName}` : 'Welcome, Guest!'}
       </p>
     </div>
