@@ -8,11 +8,31 @@ import StudentMenu from './../MenuItems/StudentMenu';
 import TutorMenu from './../MenuItems/TutorMenu';
 import AdminMenu from './../MenuItems/AdminMenu';
 import useRole from './../Hook/UseRole';
+import { useQuery } from '@tanstack/react-query';
+import useAxiosSecure from '../Hook/useAxiosSecure';
+
+
 
 const Sidebar = () => {
   const { logOut } = useAuth();
   const [role, isRoleLoading] = useRole();
   const [isActive, setActive] = useState(false);
+  const {user}=useAuth()
+  const axiosSecure=useAxiosSecure()
+  const { data: status = '', isLoading, error } = useQuery({
+    queryKey: ['status', user?.email],
+    // enabled: !loading && !!user?.email, // Fetch only if user email is available and loading is false
+
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(`/users/${user?.email}`);
+      return data.status; // Return only the status
+    },
+  });
+
+
+
+
+  
 
   const handleToggle = () => {
     setActive(!isActive);
@@ -64,7 +84,7 @@ const Sidebar = () => {
           <div className='flex flex-col justify-between flex-1 mt-6'>
             <nav>
             {!isRoleLoading && role.toLowerCase() === 'student' && <StudentMenu />}
-    {!isRoleLoading && role.toLowerCase() === 'tutor' && <TutorMenu />}
+    {!isRoleLoading && role.toLowerCase() === 'tutor'  && status.toLowerCase() === 'accepted' && <TutorMenu />}
     {!isRoleLoading && role.toLowerCase() === 'admin' && <AdminMenu />}
             </nav>
           </div>

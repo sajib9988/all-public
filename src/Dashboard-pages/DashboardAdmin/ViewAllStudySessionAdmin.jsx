@@ -56,11 +56,11 @@ const ViewAllStudySessionAdmin = () => {
                         <p className="mb-4 font-semibold"><strong>Status:</strong> {session.status}</p>
                     </div>
                     <div className='w-full'>
-                        <img src={session.image} alt={session.title} className="w-50 h-56 mb-4 rounded-md" />
+                        <img src={session.image} alt={session.title} className="w-45 h-56 mb-4 mr-3 rounded-md" />
                     </div>
 
                     {/* Admin controls */}
-                    <div className='w-full'>
+                    <div className='w-full ml-2'>
                         <label className="block mb-2 mt-3">
                             <span className="block text-sm font-bold mb-1">Update Session Fee $:</span>
                             <input
