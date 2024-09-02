@@ -6,6 +6,7 @@ import Container from './Container';
 import useAuth from './../Hook/UseAuth';
 import TutorModal from './Modal/TutorModal';
 import useRole from './../Hook/UseRole';
+
   
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -21,6 +22,12 @@ const Navbar = () => {
   const openModal = () => {
     setIsModalOpen(true);
   };
+  // Theme functionality
+ 
+
+
+  
+// theme  functionality
 
   return (
     <div className='fixed w-full bg-black bg-opacity-40 z-10 shadow-sm'>
@@ -39,6 +46,8 @@ const Navbar = () => {
             {/* Dropdown Menu */}
             <div className='relative'>
               <div className='flex flex-row items-center gap-3'>
+         {/* theme */}
+
 
 
                 {/* Become A Tutor btn */}

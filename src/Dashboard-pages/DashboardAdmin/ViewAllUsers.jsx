@@ -3,41 +3,30 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import useAxiosSecure from '../../Hook/useAxiosSecure';
 import { AiOutlineEdit, AiOutlineClose } from 'react-icons/ai'; // Importing icons
 import toast from 'react-hot-toast';
+import LoadingSpinner from './../../LoadingSpinner/LoadingSpinner';
 
 const ViewAllUsers = () => {
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
-  // const [searchTerm, setSearchTerm] = useState('');
   const [searchInput, setSearchInput] = useState('');
-
+  const [searchTerm, setSearchTerm] = useState('');
 
   // Fetching all users data using useQuery
-  const { data: users = [], isLoading, isError,  } = useQuery({
-    queryKey: ['users', searchInput],
-      queryFn: async () => {
-      const response = await axiosSecure.get(`/search?search=${searchInput}`);
-      // console.log(response.data)
-      console.log(searchInput);
+  const { data: users = [], isLoading, isError } = useQuery({
+    queryKey: ['users', searchTerm],
+    queryFn: async () => {
+      const response = await axiosSecure.get(`/search?search=${searchTerm}`);
       return response.data;
-      
     },
-
   });
 
-
-
-
-
-
-
-// Mutation for updating user role
+  // Mutation for updating user role
   const updateUserRole = useMutation({
     mutationFn: async ({ userId, role }) => {
       await axiosSecure.patch(`/users/${userId}/role`, { role });
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['users']);
-        
     },
   });
 
@@ -59,21 +48,23 @@ const ViewAllUsers = () => {
   // Handler for changing user status
   const handleStatusChange = (userId, status) => {
     updateUserStatus.mutate({ userId, status });
-    toast.success('User status updated successfully!'); 
+    toast.success('User status updated successfully!');
   };
 
   // Handler for searching users
   const handleSearch = () => {
     setSearchTerm(searchInput);
-    // setLoading(true)
-    // // refetch()
-    // setLoading(false)
-   
+  };
+
+  // Handler for resetting the search
+  const handleReset = () => {
+    setSearchInput('');
+    setSearchTerm('');
   };
 
   // Show loading state while data is being fetched
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner></LoadingSpinner>;
   }
 
   // Show error state if there is an error fetching data
@@ -90,14 +81,21 @@ const ViewAllUsers = () => {
           placeholder="Search by name or email"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          className=" w-[500px] mr-2 bg-gray-100 border border-gray-300 rounded py-2 px-2 text-gray-700 mb-2"
+          className="w-[500px] mr-2 bg-gray-100 border border-gray-300 rounded py-2 px-2 text-gray-700 mb-2"
         />
         <button
           onClick={handleSearch}
-          className="bg-blue-500 text-white px-2 w-[90px] py-2 rounded-md"
+          className="bg-blue-500 text-white px-2 w-[90px] py-2 rounded-md mr-2"
           style={{ height: '42px' }}
         >
           Search
+        </button>
+        <button
+          onClick={handleReset}
+          className="bg-gray-500 text-white px-2 w-[90px] py-2 rounded-md"
+          style={{ height: '42px' }}
+        >
+          Reset
         </button>
       </div>
       <table className="min-w-full divide-y divide-gray-200">
@@ -121,7 +119,7 @@ const ViewAllUsers = () => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {users.map(user => (
+          {users.map((user) => (
             <tr key={user._id}>
               <td className="px-6 py-4 text-center whitespace-nowrap text-sm font-medium text-gray-900">
                 {user.name}
