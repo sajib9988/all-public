@@ -55,7 +55,7 @@ const ViewAllStudySessionAdmin = () => {
                     </div>
 
                     {/* Session Image */}
-                    <div className="w-full md:w-1/2 lg:w-1/3 mb-4 md:mb-0">
+                    <div className="w-full md:w-1/2 lg:w-1/3 mr-2 mb-4 md:mb-0">
                         <img src={session.image} alt={session.title} className="w-full h-auto mb-4 rounded-md" />
                     </div>
 
