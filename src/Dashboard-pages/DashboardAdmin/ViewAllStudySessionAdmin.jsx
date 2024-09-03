@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from './../../Hook/useAxiosSecure';
 import { useState } from 'react';
-import toast from 'react-hot-toast'
+import toast from 'react-hot-toast';
 
 const ViewAllStudySessionAdmin = () => {
     const axiosSecure = useAxiosSecure();
@@ -14,22 +14,19 @@ const ViewAllStudySessionAdmin = () => {
             const response = await axiosSecure.get('/session-collection');
             return response.data;
         }
-        
     });
 
     const handleUpdate = async (sessionId) => {
         const updatedSession = {
             sessionFee: updatedFee,
             status: updatedStatus,
-  
         };
 
         try {
             const response = await axiosSecure.patch(`/session-fee/${sessionId}`, updatedSession);
             if (response.status === 200) {
                 toast.success('Session updated successfully!');
-                console.log(response)
-                refetch()
+                refetch();
             } else {
                 throw new Error('Failed to update session.');
             }
@@ -45,8 +42,9 @@ const ViewAllStudySessionAdmin = () => {
         <div className="p-4">
             <h1 className="text-xl font-bold mb-4">All Sessions: {allSession.length}</h1>
             {allSession.map((session) => (
-                <div key={session._id} className="border flex border-gray-300 p-4 mb-4 rounded-lg shadow-md">
-                    <div className='w-full'>
+                <div key={session._id} className="border border-gray-300 p-4 mb-4 rounded-lg shadow-md flex flex-col md:flex-row md:items-start">
+                    {/* Session Information */}
+                    <div className="w-full md:w-1/2 lg:w-2/3 mb-4 md:mb-0">
                         <h2 className="text-lg font-bold mb-2">{session.title}</h2>
                         <p className="mb-2 font-semibold">{session.description}</p>
                         <p className="mb-2 font-semibold"><strong>Tutor:</strong> {session.tutor.name} ({session.tutor.email})</p>
@@ -55,19 +53,21 @@ const ViewAllStudySessionAdmin = () => {
                         <p className="mb-2 font-semibold"><strong>Current Session Fee:</strong> {session.sessionFee || 'Not Set'}</p>
                         <p className="mb-4 font-semibold"><strong>Status:</strong> {session.status}</p>
                     </div>
-                    <div className='w-full'>
-                        <img src={session.image} alt={session.title} className="w-45 h-56 mb-4 mr-3 rounded-md" />
+
+                    {/* Session Image */}
+                    <div className="w-full md:w-1/2 lg:w-1/3 mb-4 md:mb-0">
+                        <img src={session.image} alt={session.title} className="w-full h-auto mb-4 rounded-md" />
                     </div>
 
-                    {/* Admin controls */}
-                    <div className='w-full ml-2'>
+                    {/* Admin Controls */}
+                    <div className="w-full md:w-1/3 flex flex-col">
                         <label className="block mb-2 mt-3">
                             <span className="block text-sm font-bold mb-1">Update Session Fee $:</span>
                             <input
                                 type="number"
                                 defaultValue={session.sessionFee}
                                 onChange={(e) => setUpdatedFee(e.target.value)}
-                                className="border border-gray-300 p-2 rounded"
+                                className="border border-gray-300 p-2 rounded w-full"
                             />
                         </label>
                         <label className="block">
@@ -75,7 +75,7 @@ const ViewAllStudySessionAdmin = () => {
                             <select
                                 defaultValue={session.status}
                                 onChange={(e) => setUpdatedStatus(e.target.value)}
-                                className="border border-gray-300 p-2 font-bold rounded"
+                                className="border border-gray-300 p-2 font-bold rounded w-full"
                             >
                                 <option value="pending">Pending</option>
                                 <option value="accepted">Accepted</option>
@@ -84,14 +84,13 @@ const ViewAllStudySessionAdmin = () => {
                         </label>
                         <button
                             onClick={() => handleUpdate(session._id)}
-                            className="bg-blue-500 text-white py-2 px-4 mt-4 rounded hover:bg-blue-600"
+                            className="bg-blue-500 text-white py-2 px-4 mt-4 rounded hover:bg-blue-600 w-full"
                         >
                             Update
                         </button>
                     </div>
                 </div>
             ))}
-
         </div>
     );
 };
