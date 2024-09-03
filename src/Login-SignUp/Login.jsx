@@ -30,15 +30,15 @@ const Login = () => {
         await signInUser(email, password);
 
         // Delay to ensure token is set properly
-        setTimeout(() => {
-            const token = localStorage.getItem('access-token');
-            if (token) {
-                toast.success('Login Successful');
-                navigate(from, { replace: true });
-            } else {
-                toast.error('Token not found');
-            }
-        }, 500); // Adjust delay as needed
+        // setTimeout(() => {
+        //     const token = localStorage.getItem('access-token');
+        //     if (token) {
+        //         toast.success('Login Successful');
+        //         navigate(from, { replace: true });
+        //     } else {
+        //         toast.error('Token not found');
+        //     }
+        // }, 500); // Adjust delay as needed
     } catch (error) {
         toast.error('Login Failed: ' + error.message);
     } finally {

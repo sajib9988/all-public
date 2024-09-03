@@ -44,7 +44,7 @@ export const Router = createBrowserRouter([
   {
     path: '/payment/:sessionId',
     element: <PrivateRoute><Payment /></PrivateRoute>,
-    loader: ({ params }) => fetch(`http://localhost:5000/bookings-payment/${params?.sessionId}`)
+    loader: ({ params }) => fetch(`https://assignment-12-server-smoky-nine.vercel.app/bookings-payment/${params?.sessionId}`)
     
 },
 
