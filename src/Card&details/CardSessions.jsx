@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import useAxiosPublic from './../Hook/axiosPublic';
 import { Link } from 'react-router-dom';
@@ -42,7 +42,7 @@ const CardSessions = () => {
 
   return (
     <div>
-      <h1 className='font-bold text-center text-3xl mt-4 border bg-gray-100 p-3 mb-4'>All Study Sessions</h1>
+      <h1 className='font-bold text-center text-3xl mt-4 border rounded-lg bg-gray-100 p-3 mb-4'>All Study Sessions</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {sessionsToDisplay.length === 0 ? (
           <div>No sessions available</div>
@@ -56,7 +56,7 @@ const CardSessions = () => {
                 <img
                   src={session.image}
                   alt={session.title}
-                  className="w-full h-60 object-cover rounded-t-lg"
+                  className="w-full h-60 object-cover border-4 border-amber-400 rounded-t-lg"
                 />
                 <h2 className="text-lg font-semibold mt-2">{session.title}</h2>
                 <p className="text-gray-600">{session.description}</p>

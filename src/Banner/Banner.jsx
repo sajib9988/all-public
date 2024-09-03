@@ -16,7 +16,7 @@ const bannerData = [
     description: "Access quality education with expert guidance.",
     imageUrl: "https://i.ibb.co/vJKzcJK/tutor-girl-home-writing-new-information.jpg",
     ctaText: "Explore Tutors",
-    ctaLink: "/tutors",
+    ctaLink: "/login",
   },
   {
     id: 3,

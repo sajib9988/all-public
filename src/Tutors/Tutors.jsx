@@ -49,7 +49,7 @@ const Tutors = () => {
               <img
                 src={tutor.image}
                 alt={tutor.name}
-                className="w-44 h-34 rounded-full object-cover border-4 border-green-400"
+                className="w-54 h-34 rounded-full object-cover border-4 border-green-400"
                 style={{ objectPosition: 'top' }} 
               />
             </div>

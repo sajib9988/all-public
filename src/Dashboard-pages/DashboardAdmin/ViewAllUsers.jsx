@@ -137,7 +137,7 @@ const ViewAllUsers = () => {
                   className="block w-full bg-gray-100 border border-gray-300 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   onChange={(e) => handleRoleChange(user._id, e)}
                 >
-                  <option value="Admin">Admin</option>
+                  <option value="admin">Admin</option>
                   <option value="Tutor">Tutor</option>
                   <option value="Student">Student</option>
                 </select>
