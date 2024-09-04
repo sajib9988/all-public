@@ -2,7 +2,7 @@ import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from 'react-icons/f
 
 const Footer = () => {
   return (
-    <footer className="bg-black bg-opacity-50 text-white py-6 mt-10">
+    <footer className="bg-base-300 bg-opacity-50  py-6 mt-10">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between">
           {/* Logo and Description */}
@@ -14,7 +14,7 @@ const Footer = () => {
               height="100"
               className="mb-4"
             />
-            <p className="text-gray-400">
+            <p className="">
               Online Study Center - Connecting students with top tutors and providing admin support.
             </p>
           </div>

@@ -20,6 +20,11 @@ const ViewAllUsers = () => {
     },
   });
 
+    // Sort users based on creation time (newest first)
+    // const sortedUsers = [...users].sort(
+    //   (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    // )
+
   // Mutation for updating user role
   const updateUserRole = useMutation({
     mutationFn: async ({ userId, role }) => {
@@ -51,7 +56,7 @@ const ViewAllUsers = () => {
     toast.success('User status updated successfully!');
   };
 
-  // Handler for searching users
+  // Handler for searching users 
   const handleSearch = () => {
     setSearchTerm(searchInput);
   };
@@ -118,10 +123,10 @@ const ViewAllUsers = () => {
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-base-100 divide-y divide-gray-200">
           {users.map((user) => (
             <tr key={user._id}>
-              <td className="px-6 py-4 text-center whitespace-nowrap text-sm font-medium text-gray-900">
+              <td className="px-6 py-4 text-center whitespace-nowrap text-sm font-medium text-gray-500">
                 {user.name}
               </td>
               <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">

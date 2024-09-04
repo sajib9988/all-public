@@ -41,7 +41,7 @@ const Sidebar = () => {
   return (
     <>
       {/* Small Screen Navbar */}
-      <div className='bg-green-100  text-gray-800 flex justify-between md:hidden '>
+      <div className='bg-green-100  text-gray-300 flex justify-between md:hidden '>
         <div>
           <div className='block  cursor-pointer p-4 font-bold'>
             <Link to='/'>
@@ -65,10 +65,10 @@ const Sidebar = () => {
 
       {/* Sidebar */}
       <div
-        className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-green-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${isActive && '-translate-x-full'} md:translate-x-0 transition duration-200 ease-in-out`}
+        className={`z-10 md:fixed flex flex-col justify-between border overflow-x-hidden bg-base-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${isActive && '-translate-x-full'} md:translate-x-0 transition duration-200 ease-in-out`}
       >
         <div>
-          <div className='w-[100px] font-bold hidden md:flex px-4 py-2 shadow-lg bg-green-300 rounded-lg justify-center items-center mx-auto'>
+          <div className='w-[100px] font-bold hidden md:flex px-4 py-2 shadow-lg bg-base-300 text-success rounded-lg justify-center items-center mx-auto'>
             <Link to='/'>
             Home
               <img
@@ -98,7 +98,7 @@ const Sidebar = () => {
             to='/dashboard/profile'
             className={({ isActive }) =>
               `flex items-center px-4 py-2 my-5 transition-colors duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${
-                isActive ? 'bg-gray-300 text-gray-700' : 'text-gray-600'
+                isActive ? 'bg-gray-300 text-gray-700' : 'text-gray-500'
               }`
             }
           >

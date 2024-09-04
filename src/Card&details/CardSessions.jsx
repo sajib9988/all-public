@@ -50,7 +50,7 @@ const CardSessions = () => {
           sessionsToDisplay.map(session => (
             <div
               key={session._id}
-              className="relative bg-white shadow-lg rounded-lg p-4 flex flex-col justify-between"
+              className="relative bg-base-100 shadow-lg rounded-lg p-4 flex flex-col justify-between"
             >
               <div>
                 <img
@@ -59,9 +59,9 @@ const CardSessions = () => {
                   className="w-full h-60 object-cover border-4 border-amber-400 rounded-t-lg"
                 />
                 <h2 className="text-lg font-semibold mt-2">{session.title}</h2>
-                <p className="text-gray-600">{session.description}</p>
-                <p className="text-gray-800 mt-2 mb-2">Fee: ${session.sessionFee}</p>
-                <p className="text-gray-800 mt-2 mb-2">
+                <p className="font-bold">{session.description}</p>
+                <p className="font-bold mt-2 mb-2">Fee: ${session.sessionFee}</p>
+                <p className=" mt-2 mb-2">
                   Tutor: {session.tutor.name}
                 </p>
                 <p>
@@ -73,7 +73,7 @@ const CardSessions = () => {
                   <h3 className="font-semibold">Reviews:</h3>
                   {session.reviews && session.reviews.length > 0 ? (
                     session.reviews.map((review, index) => (
-                      <div key={index} className="bg-slate-300 font-bold p-2 mt-2 rounded">
+                      <div key={index} className="bg-base-300 font-bold p-2 mt-2 rounded">
                         <p>Rating: {review.rating}/5</p>
                         <p>{review.review}</p>
                       </div>

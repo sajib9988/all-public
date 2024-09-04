@@ -55,7 +55,7 @@ const Banner = () => {
   };
 
   return (
-    <div className="relative h-[528px] mt-12 rounded-md shadow-md overflow-hidden md:px-1">
+    <div className="relative h-[528px] mt-12 rounded-md shadow-md overflow-hidden md:mx-4">
       <motion.div
         className="flex h-full"
         animate={{ x: `-${currentIndex * 100}%` }} // Slide animation based on current index
@@ -67,7 +67,7 @@ const Banner = () => {
         {bannerData.map((banner) => (
           <div
             key={banner.id}
-            className="min-w-full flex items-center justify-center text-center relative"
+            className="min-w-full flex items-center justify-center text-center relative md:mx-3"
             style={{
               backgroundImage: `url(${banner.imageUrl})`,
               backgroundSize: "cover",

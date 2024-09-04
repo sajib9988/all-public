@@ -35,13 +35,13 @@ const Tutors = () => {
   };
 
   return (
-    <div className="container mx-auto p-6 bg-green-900 bg-opacity-30 rounded-lg shadow-lg mt-5">
+    <div className="container mx-auto p-6 bg-base-200 bg-opacity-30 rounded-lg shadow-lg mt-5">
       <h1 className="text-center text-3xl font-extrabold text-gray-800 mb-12">Meet Our Tutors</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {tutors.map((tutor) => (
           <motion.div
             key={tutor.email}
-            className="bg-white border p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+            className="bg-base-300 border p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >

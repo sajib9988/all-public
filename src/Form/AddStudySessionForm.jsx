@@ -1,6 +1,7 @@
 // AddStudySessionForm.js
 import { DateRange } from 'react-date-range';
 import { TbFidgetSpinner } from 'react-icons/tb';
+import PropTypes from 'prop-types'; // Import PropTypes
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
@@ -19,7 +20,7 @@ const AddStudySessionForm = ({
   isTutor,
 }) => {
   return (
-    <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50'>
+    <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center px-3 py-2 text-gray-300 rounded-xl bg-base-300'>
       <div className='w-full'>
         <form onSubmit={handleSubmit}>
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-10'>
@@ -39,19 +40,19 @@ const AddStudySessionForm = ({
               </div>
 
               <div className='space-y-1'>
-                <label htmlFor='description' className='block text-gray-600'>
+                <label htmlFor='description' className='block text-gray-500'>
                   Session Description
                 </label>
                 <textarea
                   id='description'
-                  className='block rounded-md focus:rose-300 w-full h-32 px-4 py-3 text-gray-800 border border-rose-300 focus:outline-rose-500'
+                  className='block rounded-md focus:rose-300 w-full h-32 px-4 py-3 text-gray-300 border border-rose-300 focus:outline-rose-500'
                   name='description'
                   required
                 ></textarea>
               </div>
             <div className='ml-[500px] flex justify-center'>
             <div className='space-y-1 border border-red-500 mr-3 '>
-                <label htmlFor='registrationDates' className=' ml-3  text-center block font-bold text-black'>
+                <label htmlFor='registrationDates' className=' ml-3  text-center block font-bold text-green-400'>
                   Registration Dates
                 </label>
                 <DateRange
@@ -66,7 +67,7 @@ const AddStudySessionForm = ({
 
               {/* Class Date Range */}
               <div className='space-y-1 border border-red-500'>
-                <label htmlFor='classDates' className='ml-3  text-center block font-bold text-black'>
+                <label htmlFor='classDates' className='ml-3  text-center block font-bold  text-green-400'>
                   Class Dates
                 </label>
                 <DateRange
@@ -145,5 +146,21 @@ const AddStudySessionForm = ({
     </div>
   );
 };
+
+AddStudySessionForm.propTypes = {
+  registrationDates: PropTypes.object.isRequired,
+  handleRegistrationDates: PropTypes.func.isRequired,
+  classDates: PropTypes.object.isRequired,
+  handleClassDates: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  setImagePreview: PropTypes.func.isRequired,
+  imagePreview: PropTypes.string,
+  imageText: PropTypes.string.isRequired,
+  handleImage: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  isTutor: PropTypes.bool.isRequired,
+};
+
+
 
 export default AddStudySessionForm;

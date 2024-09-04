@@ -87,11 +87,11 @@ const SignUp = () => {
   };
 
   return (
-    <div className='flex justify-center items-center mt-6 mb-3 min-h-screen'>
-      <div className='flex flex-col w-[700px] p-4 fixed rounded-md sm:p-10 bg-green-500 bg-opacity-60 mt-3 mb-3 text-gray-900'>
+    <div className='flex justify-center items-center mt-6 mb-3 min-h-screen px-4'>
+      <div className='flex flex-col w-full sm:w-[700px] p-4 rounded-md bg-green-500 bg-opacity-60 mt-3 mb-3 text-gray-900'>
         <div className='mb-8 text-center'>
-          <h1 className='my-3 text-4xl font-bold'>Sign Up</h1>
-          <p className='text-sm text-gray-400'>Welcome to Study Center</p>
+          <h1 className='my-3 text-3xl sm:text-4xl font-bold'>Sign Up</h1>
+          <p className='text-xs sm:text-sm text-gray-400'>Welcome to Study Center</p>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
           <div className='space-y-4'>

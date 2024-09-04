@@ -16,56 +16,56 @@ const ViewAllMaterials = () => {
 
   if (isError) {
     return (
-      <p className="text-red-600 font-semibold text-center">
+      <p className="text-error font-semibold text-center">
         Error fetching materials
       </p>
     );
   }
 
   return (
-    <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-extrabold mb-6 text-center text-gray-800">
+    <div className="container mx-auto p-6 bg-base-100 min-h-screen">
+      <h1 className="text-3xl font-extrabold mb-6 text-center text-base-content">
         View All Materials
       </h1>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
-          <thead className="bg-gray-100 border-b border-gray-200">
+        <table className="min-w-full bg-base-100 border border-base-300 rounded-lg shadow-md">
+          <thead className="bg-base-200 border-b border-base-300">
             <tr>
-              <th className="py-3 px-4 text-center text-gray-600 font-bold">
+              <th className="py-3 px-4 text-center text-base-content font-bold">
                 Title
               </th>
-              <th className="py-3 px-4 text-center text-gray-600 font-bold">
+              <th className="py-3 px-4 text-center text-base-content font-bold">
                 Email
               </th>
-              <th className="py-3 px-4 text-center text-gray-600 font-bold">
+              <th className="py-3 px-4 text-center text-base-content font-bold">
                 Study Session ID
               </th>
-              <th className="py-3 px-4 text-center text-gray-600 font-bold">
+              <th className="py-3 px-4 text-center text-base-content font-bold">
                 Link
               </th>
-              <th className="py-3 px-4 text-center text-gray-600 font-bold">
+              <th className="py-3 px-4 text-center text-base-content font-bold">
                 Image
               </th>
             </tr>
           </thead>
           <tbody>
             {materials.map((material) => (
-              <tr key={material._id} className="border-b border-gray-200">
-                <td className="py-4 px-6 text-center text-gray-800">
+              <tr key={material._id} className="border-b border-base-300">
+                <td className="py-4 px-6 text-center text-base-content">
                   {material.title}
                 </td>
-                <td className="py-4 px-6 text-center text-gray-800">
+                <td className="py-4 px-6 text-center text-base-content">
                   {material.email}
                 </td>
-                <td className="py-4 px-6 text-center text-gray-800">
+                <td className="py-4 px-6 text-center text-base-content">
                   {material.studySessionId}
                 </td>
-                <td className="py-4 px-6 text-center text-gray-800">
+                <td className="py-4 px-6 text-center text-base-content">
                   <a
                     href={material.link.trim().replace(/"/g, "")}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-500 hover:underline"
+                    className="text-primary hover:underline"
                   >
                     View Material
                   </a>

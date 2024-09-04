@@ -24,14 +24,14 @@ const ViewMaterial = () => {
   }
 
   return (
-    <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
+    <div className="container mx-auto p-6 bg-base-100 min-h-screen">
       <h1 className="text-3xl font-extrabold mb-6 text-center text-gray-800">
         View Material
         {data.length > 0 ? `: ${data.length} items ` : ': No materials found'}
       </h1>
       <ul className="space-y-6">
         {data.map((material) => (
-          <li key={material._id.$oid} className="p-6 bg-white border border-gray-200 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <li key={material._id.$oid} className="p-6 bg-base-100 border border-gray-200 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
             <h2 className="text-2xl font-semibold text-gray-900 mb-3">{material.title}</h2>
             <p className="text-gray-700 mb-2"><span className="font-medium">Email:</span> {material.email}</p>
             <p className="text-gray-700 mb-2"><span className="font-medium">Study Session ID:</span> {material.studySessionId}</p>

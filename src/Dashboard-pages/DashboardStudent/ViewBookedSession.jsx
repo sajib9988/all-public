@@ -57,7 +57,7 @@ const ViewBookedSession = () => {
             ) : (
                 <div className="space-y-6">
                     {booked.map((session) => (
-                        <div key={session._id} className="bg-white shadow-md rounded-lg p-4">
+                        <div key={session._id} className="bg-base-100 shadow-md rounded-lg p-4">
                             <h2 className="text-xl font-semibold">{session.sessionTitle}</h2>
                             <p><strong>Tutor:</strong> {session.tutorName}</p>
                             <p><strong>Booking Date:</strong> {new Date(session.bookingDate).toLocaleDateString()}</p>

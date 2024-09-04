@@ -82,7 +82,7 @@ const Login = () => {
 
   return (
     <div className='flex justify-center items-center min-h-screen'>
-      <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-green-300 text-gray-900'>
+      <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-success'>
         <div className='mb-8 text-center'>
           <h1 className='my-3 text-4xl font-bold'>Log In</h1>
           <p className='text-sm text-gray-400'>
@@ -133,7 +133,7 @@ const Login = () => {
             <button
               disabled={loading}
               type='submit'
-              className='bg-rose-500 w-full rounded-md py-3 text-white'
+              className='bg-rose-500 w-full rounded-md py-3 '
             >
               {loading ? (
                 <TbFidgetSpinner className='animate-spin m-auto' />
