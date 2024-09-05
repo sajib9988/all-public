@@ -38,7 +38,7 @@ const Shared = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-300 p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen border border-1 shadow-lg rounded-md p-4">
       <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-success mb-4 text-center">
         <TextTransition springConfig={presets.wobbly}>
           {texts[index % texts.length]}
