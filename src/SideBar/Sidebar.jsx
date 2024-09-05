@@ -59,13 +59,15 @@ const Sidebar = () => {
           onClick={handleToggle}
           className='mobile-menu-button p-4 focus:outline-none focus:bg-gray-200'
         >
-          <AiOutlineBars className='h-5 w-5' />
+          <AiOutlineBars className='h-5 w-5 text-base-300'  />
         </button>
       </div>
 
       {/* Sidebar */}
       <div
-        className={`z-10 md:fixed flex flex-col justify-between border overflow-x-hidden bg-base-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${isActive && '-translate-x-full'} md:translate-x-0 transition duration-200 ease-in-out`}
+         className={`z-10 md:fixed flex flex-col justify-between border overflow-x-hidden bg-base-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
+          isActive ? 'translate-x-0' : '-translate-x-full'
+        } mt-[128px] md:translate-x-0 md:mt-0 transition duration-200 ease-in-out`}
       >
         <div>
           <div className='w-[100px] font-bold hidden md:flex px-4 py-2 shadow-lg bg-base-300 text-success rounded-lg justify-center items-center mx-auto'>
@@ -80,7 +82,7 @@ const Sidebar = () => {
             </Link>
           </div>
 
-          {/* Nav Items */}
+          {/* Nav Items for dashboard*/}
           <div className='flex flex-col justify-between flex-1 mt-6'>
             <nav>
             {!isRoleLoading && role.toLowerCase() === 'student' && <StudentMenu />}
@@ -118,4 +120,4 @@ const Sidebar = () => {
   );
 }
 
-export default Sidebar;
+export default Sidebar; 

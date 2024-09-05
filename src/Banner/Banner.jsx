@@ -55,7 +55,7 @@ const Banner = () => {
   };
 
   return (
-    <div className="relative h-[528px] mt-12 rounded-md shadow-md overflow-hidden md:mx-4">
+    <div className="relative h-[528px] mt-12 rounded-md shadow-md overflow-hidden md:px-auto mx-2">
       <motion.div
         className="flex h-full"
         animate={{ x: `-${currentIndex * 100}%` }} // Slide animation based on current index

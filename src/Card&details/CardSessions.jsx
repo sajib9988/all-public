@@ -43,7 +43,7 @@ const CardSessions = () => {
   return (
     <div>
       <h1 className='font-bold text-center text-3xl mt-4 border rounded-lg bg-gray-100 p-3 mb-4'>All Study Sessions</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 px-auto mx-2 gap-4">
         {sessionsToDisplay.length === 0 ? (
           <div>No sessions available</div>
         ) : (

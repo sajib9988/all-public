@@ -116,7 +116,7 @@ const ViewAllUsers = () => {
         </button>
       </div>
       <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+        <thead className="bg-base-100">
           <tr>
             <th scope="col" className="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">
               User Name
@@ -135,7 +135,7 @@ const ViewAllUsers = () => {
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-base-100 divide-y divide-gray-200">
           {users.map((user) => (
             <tr key={user._id}>
               <td className="px-6 py-4 text-center whitespace-nowrap text-sm font-medium text-gray-500">
