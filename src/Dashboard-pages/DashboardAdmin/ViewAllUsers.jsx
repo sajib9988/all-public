@@ -1,15 +1,19 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import useAxiosSecure from '../../Hook/useAxiosSecure';
-import { AiOutlineEdit, AiOutlineClose } from 'react-icons/ai'; // Importing icons
+import { AiOutlineEdit, AiOutlineClose } from 'react-icons/ai';
 import toast from 'react-hot-toast';
 import LoadingSpinner from './../../LoadingSpinner/LoadingSpinner';
+import UserDetailsModal from '../../Modal-Form/UserDetailsModal';
+ // Import the modal component
 
 const ViewAllUsers = () => {
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
   const [searchInput, setSearchInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedUser, setSelectedUser] = useState(null); // State to manage the selected user
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal open/close
 
   // Fetching all users data using useQuery
   const { data: users = [], isLoading, isError } = useQuery({
@@ -20,11 +24,6 @@ const ViewAllUsers = () => {
     },
   });
 
-    // Sort users based on creation time (newest first)
-    // const sortedUsers = [...users].sort(
-    //   (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    // )
-
   // Mutation for updating user role
   const updateUserRole = useMutation({
     mutationFn: async ({ userId, role }) => {
@@ -32,6 +31,7 @@ const ViewAllUsers = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['users']);
+      toast.success('User role updated successfully!');
     },
   });
 
@@ -42,6 +42,7 @@ const ViewAllUsers = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['users']);
+      toast.success('User status updated successfully!');
     },
   });
 
@@ -53,7 +54,6 @@ const ViewAllUsers = () => {
   // Handler for changing user status
   const handleStatusChange = (userId, status) => {
     updateUserStatus.mutate({ userId, status });
-    toast.success('User status updated successfully!');
   };
 
   // Handler for searching users 
@@ -65,6 +65,18 @@ const ViewAllUsers = () => {
   const handleReset = () => {
     setSearchInput('');
     setSearchTerm('');
+  };
+
+  // Handler for opening the modal with user details
+  const handleDetails = (user) => {
+    setSelectedUser(user);
+    setIsModalOpen(true);
+  };
+
+  // Handler for closing the modal
+  const closeModal = () => {
+    setSelectedUser(null);
+    setIsModalOpen(false);
   };
 
   // Show loading state while data is being fetched
@@ -123,7 +135,7 @@ const ViewAllUsers = () => {
             </th>
           </tr>
         </thead>
-        <tbody className="bg-base-100 divide-y divide-gray-200">
+        <tbody className="bg-white divide-y divide-gray-200">
           {users.map((user) => (
             <tr key={user._id}>
               <td className="px-6 py-4 text-center whitespace-nowrap text-sm font-medium text-gray-500">
@@ -143,8 +155,8 @@ const ViewAllUsers = () => {
                   onChange={(e) => handleRoleChange(user._id, e)}
                 >
                   <option value="admin">Admin</option>
-                  <option value="Tutor">Tutor</option>
-                  <option value="Student">Student</option>
+                  <option value="tutor">Tutor</option>
+                  <option value="student">Student</option>
                 </select>
               </td>
               <td className="px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500 flex justify-center space-x-2">
@@ -164,11 +176,21 @@ const ViewAllUsers = () => {
                   <AiOutlineClose className="mr-2" />
                   Reject
                 </button>
+                {/* Details button to open modal */}
+                <button
+                  onClick={() => handleDetails(user)}
+                  className="bg-green-500 text-white px-4 py-2 rounded-md"
+                >
+                  Details
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {/* Modal for displaying user details */}
+      {isModalOpen && <UserDetailsModal isOpen={isModalOpen} onClose={closeModal} user={selectedUser} />}
     </div>
   );
 };
